@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">PositiveParentingApp</string>
-    <string name="title_onboarding">Onboarding</string>
-    <string name="title_journal_overview">Journal Overview</string>
-    <string name="title_journal_editor">Journal Entry</string>
-    <string name="title_insights">Insights</string>
-    <string name="title_settings">Settings</string>
-</resources>
