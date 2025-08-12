@@ -12,8 +12,7 @@ android {
     defaultConfig {
         applicationId = "com.example.positiveparentingreminders"
         minSdk = 33
-        //noinspection OldTargetApi
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -33,14 +32,14 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlin {
-        compilerOptions {
-            optIn.add("kotlin.RequiresOptIn")
-        }
+    kotlinOptions {
+        @Suppress("DEPRECATION")
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
         buildConfig = true
+        viewBinding = true
     }
 }
 
