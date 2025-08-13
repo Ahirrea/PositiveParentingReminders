@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.generativeai)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.appcompat)
+    implementation("com.airbnb.android:lottie:6.6.7")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
