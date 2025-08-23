@@ -21,6 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.positiveparenting.onboarding.OnboardingStep2Activity"
+            android:exported="false"
+            android:theme="@style/Theme.PositiveParentingReminders" />
     </application>
 
 </manifest>
