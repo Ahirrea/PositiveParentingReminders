@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">PositiveParentingApp</string>
     <string name="title_onboarding">Onboarding</string>
+    <string name="onboarding_welcome_title">Welcome to Positive Parenting Reminders.</string>
+    <string name="onboarding_subtitle">A small private space just for you to take a breather and reflect on everyday parenting.</string>
+    <string name="onboarding_button_text">Let\'s go</string>
     <string name="title_journal_overview">Journal Overview</string>
     <string name="title_journal_editor">Journal Entry</string>
     <string name="title_insights">Insights</string>

@@ -2,11 +2,19 @@ package com.positiveparenting.onboarding
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.positiveparenting.R // Assuming R will be generated in this base package
+import android.widget.Button
+import android.widget.Toast
+import com.positiveparenting.R
 
 class OnboardingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // setContentView(R.layout.activity_onboarding) // Layout file will be created next
+        setContentView(R.layout.activity_onboarding)
+
+        val letsGoButton: Button = findViewById(R.id.lets_go_button)
+        letsGoButton.setOnClickListener {
+            Toast.makeText(this, "Let's go!", Toast.LENGTH_SHORT).show()
+            // Here you would navigate to the next activity
+        }
     }
 }
