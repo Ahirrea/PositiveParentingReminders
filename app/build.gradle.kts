@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.positiveparentingreminders"
+    namespace = "com.positiveparenting"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.positiveparentingreminders"
+        applicationId = "com.positiveparenting"
         minSdk = 33
         targetSdk = 36
         versionCode = 1
@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.appcompat)
     implementation("com.airbnb.android:lottie:6.6.7")
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

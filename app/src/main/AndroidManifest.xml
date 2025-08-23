@@ -12,7 +12,7 @@
         android:theme="@style/Theme.PositiveParentingReminders"
         >
         <activity
-            android:name=".MainActivity"
+            android:name="com.positiveparenting.onboarding.OnboardingActivity"
             android:exported="true"
             android:theme="@style/Theme.PositiveParentingReminders">
             <intent-filter>
