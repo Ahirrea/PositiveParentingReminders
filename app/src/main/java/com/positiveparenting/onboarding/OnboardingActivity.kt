@@ -1,9 +1,9 @@
 package com.positiveparenting.onboarding
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.Toast
 import com.positiveparenting.R
 
 class OnboardingActivity : AppCompatActivity() {
@@ -13,8 +13,8 @@ class OnboardingActivity : AppCompatActivity() {
 
         val letsGoButton: Button = findViewById(R.id.lets_go_button)
         letsGoButton.setOnClickListener {
-            Toast.makeText(this, "Let's go!", Toast.LENGTH_SHORT).show()
-            // Here you would navigate to the next activity
+            val intent = Intent(this, OnboardingStep2Activity::class.java)
+            startActivity(intent)
         }
     }
 }
