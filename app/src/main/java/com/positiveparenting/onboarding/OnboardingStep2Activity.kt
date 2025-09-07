@@ -3,6 +3,7 @@ package com.positiveparenting.onboarding
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.content.Intent
 import android.widget.Toast
 import com.positiveparenting.R
 
@@ -13,8 +14,8 @@ class OnboardingStep2Activity : AppCompatActivity() {
 
         val nextButton: Button = findViewById(R.id.next_button)
         nextButton.setOnClickListener {
-            Toast.makeText(this, "Next button clicked!", Toast.LENGTH_SHORT).show()
-            // TODO: Navigate to the next screen
+            val intent = Intent(this, OnboardingStep3Activity::class.java)
+            startActivity(intent)
         }
     }
 }
