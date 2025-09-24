@@ -12,4 +12,13 @@
     <string name="onboarding_step2_title">Find a moment for yourself every day.</string>
     <string name="onboarding_step2_message">Our app helps you move from reacting to conscious, mindful action in just 2-3 minutes a day.</string>
     <string name="onboarding_step2_button">Next</string>
+
+    <string name="account_creation_title">Secure your personal journal.</string>
+    <string name="account_creation_subtitle">Create an account so that your entries are stored securely and are only accessible to you.</string>
+    <string name="account_creation_email_hint">Email address</string>
+    <string name="account_creation_button_text">Create account</string>
+    <string name="account_creation_google_button_text">Sign in with Google</string>
+    <string name="account_creation_privacy_caption">We respect your privacy. Your data is encrypted and never shared.</string>
+    <string name="account_creation_success_message">Account created successfully!</string>
+    <string name="invalid_email_message">Invalid email format</string>
 </resources>
