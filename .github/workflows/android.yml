@@ -34,6 +34,11 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
+      # local.properties is git-ignored, but the secrets-gradle-plugin requires
+      # it to exist. Point sdk.dir at the runner's SDK installed above.
+      - name: Create local.properties
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
+
       - name: Lint
         run: ./gradlew lint
 
