@@ -16,6 +16,7 @@ class AccountCreationActivity : AppCompatActivity() {
     private lateinit var emailInputLayout: TextInputLayout
     private lateinit var emailEditText: TextInputEditText
     private lateinit var createAccountButton: MaterialButton
+    private lateinit var googleSignInButton: MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +25,7 @@ class AccountCreationActivity : AppCompatActivity() {
         emailInputLayout = findViewById(R.id.email_input_layout)
         emailEditText = findViewById(R.id.email_edittext)
         createAccountButton = findViewById(R.id.create_account_button)
+        googleSignInButton = findViewById(R.id.google_signin_button)
 
         emailEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -44,15 +46,32 @@ class AccountCreationActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+
+        googleSignInButton.setOnClickListener {
+            // Google sign-in is not wired up yet; surface a placeholder until it is.
+            Toast.makeText(
+                this,
+                getString(R.string.account_creation_google_coming_soon),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun validateEmail(email: String) {
-        if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailInputLayout.error = null
-            createAccountButton.isEnabled = true
-        } else {
-            emailInputLayout.error = getString(R.string.invalid_email_message)
-            createAccountButton.isEnabled = false
+        when {
+            // Don't flag the empty field as an error; just keep submit disabled.
+            email.isEmpty() -> {
+                emailInputLayout.error = null
+                createAccountButton.isEnabled = false
+            }
+            Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+                emailInputLayout.error = null
+                createAccountButton.isEnabled = true
+            }
+            else -> {
+                emailInputLayout.error = getString(R.string.invalid_email_message)
+                createAccountButton.isEnabled = false
+            }
         }
     }
 }
