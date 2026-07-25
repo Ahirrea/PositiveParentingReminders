@@ -1,0 +1,57 @@
+# Anforderungen
+
+Verfeinerte Ideen — Ergebnis des [Refinement-Prozesses](../PROZESS.md). Rein
+technische Aufgaben und kleine Fixes laufen über [`BACKLOG.md`](../BACKLOG.md);
+die Trennlinie steht im
+[Prozess](../PROZESS.md#anforderung-oder-aufgabe-der-test).
+
+Diese Übersicht ist der Einstieg — und die **einzige Quelle für den Status**: die
+Anforderungsdateien selbst führen keinen Status, damit nichts auseinanderlaufen
+kann. Eine erledigte Anforderung **bleibt liegen, wo sie ist**; sie ist ab dann
+das Protokoll, *warum* es so gelöst wurde.
+
+**Zeile oder Datei?** Eine rohe Idee bleibt eine Zeile in der Tabelle. Erst bei
+der Verfeinerung entsteht `A-<Nr>-<kurz-titel>.md` und die Zeile wird verlinkt.
+
+**Statuslegende:** `💡 Idee` · `✅ bereit` · `🚧 in Umsetzung` · `🏁 erledigt`
+· `🧊 zurückgestellt` · `🗑 verworfen`
+
+## Ausgangslage
+
+Der einzige fertige Teil ist das **Onboarding** (`OnboardingActivity` →
+`OnboardingStep2Activity` → `OnboardingStep3Activity` → `AccountCreationActivity`),
+und nur er ist im `AndroidManifest.xml` registriert. Alles andere ist Gerüst:
+
+- `journal/JournalOverviewActivity`, `journal/JournalEditorActivity` — Stubs, das
+  `setContentView` ist auskommentiert, nicht im Manifest.
+- `insights/InsightsActivity` — hat ein Layout, ist nicht im Manifest.
+- `settings/SettingsActivity` — Stub.
+- **Keine Persistenz**, keine Datenbank, kein Notification-Code, kein KI-Code.
+
+Die Liste unten ist damit weniger „Ausbau" als „der Kern fehlt noch". A-1 ist der
+Anfang: ohne gespeicherte Einträge hat keine andere Anforderung ein Fundament.
+
+## Übersicht
+
+| Nr. | Anforderung | Status | Worum es geht |
+|---|---|---|---|
+| A-1 | Eintrag schreiben und speichern | 💡 Idee | Der Kern des Produkts: Textfeld, Stimmung, Speichern. `JournalEditorActivity` ist ein Stub. **Enthält die offene Frage, welche lokale Persistenz** (Room / DataStore / SQLite) — die Entscheidung wird beim Verfeinern zum ADR. Bedient PRD „Kernschleife" Schritt 2. |
+| A-2 | Journal-Übersicht | 💡 Idee | Liste der eigenen Einträge, chronologisch, zum Wiederlesen. `JournalOverviewActivity` ist ein Stub. Setzt A-1 voraus. |
+| A-3 | Ein Impuls pro Tag als Notification | 💡 Idee | „Einen einzigen Impuls pro Tag" ist die User Story, an der die ganze Gewohnheit hängt. Es existiert noch kein Notification-Code, und die Uhrzeit gehört konfigurierbar (→ A-6). |
+| A-4 | Stimmung erfassen | 💡 Idee | Ohne strukturierte Stimmung gibt es keinen Verlauf, den ein Rückblick zeigen könnte. Kann Teil von A-1 werden — beim Verfeinern entscheiden, ob eigenständig. |
+| A-5 | Einträge mit Themen versehen | 💡 Idee | „Streit ums Zubettgehen", „Geschwisterstreit" — die Voraussetzung dafür, wiederkehrende Situationen überhaupt zu erkennen. Offen: feste Themenliste oder freie Schlagworte. |
+| A-6 | Einstellungen | 💡 Idee | Erinnerungszeit, Name, Datenexport/-löschung. `SettingsActivity` ist ein Stub. |
+| A-7 | Rückblick über Wochen und Monate | 💡 Idee | Der eigentliche Nutzen des Produkts (PRD „Kernschleife" Schritt 3). `InsightsActivity` hat ein Layout, aber keine Registrierung und keine Daten. Zunächst **regelbasiert** über die eigenen Einträge — bewusst ohne KI. |
+| A-8 | KI-gestützte Insights | 💡 Idee | Die Gemini-Abhängigkeit ist deklariert, aber ungenutzt. Laut PRD-Nicht-Ziel **erst nach** einem funktionierenden Journal-Kern; braucht außerdem eine Feedback-Schleife („war das hilfreich?"), sonst erodiert Vertrauen. |
+| A-9 | Datenexport und vollständiges Löschen | 💡 Idee | Ohne Cloud ist ein Gerätewechsel sonst Datenverlust — dasselbe Argument wie bei den anderen lokalen Projekten. Gehört zum Datenschutz-Versprechen dazu, nicht als Extra. |
+
+## Neue Anforderung aufnehmen
+
+Schritt 7 des [Refinement-Prozesses](../PROZESS.md):
+
+1. Für eine rohe Idee genügt eine neue Zeile mit Status `💡 Idee`.
+2. Zur Verfeinerung [`_vorlage.md`](./_vorlage.md) nach
+   `A-<nächste Nr>-<kurz-titel>.md` kopieren und ausfüllen (Nummern werden nicht
+   wiederverwendet, auch nicht bei `🗑 verworfen`), dann die Zeile verlinken und
+   auf `✅ bereit` setzen.
+3. Status ausschließlich hier pflegen — auch später bei `🚧` und `🏁`.

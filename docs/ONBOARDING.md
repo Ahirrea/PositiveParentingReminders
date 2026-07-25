@@ -3,11 +3,13 @@
 Welcome! This is the native **Android** app for *Positive Parenting Reminders* — a daily
 micro-journaling and reflection app for parents. Parents get short guided prompts, log
 their emotional responses, and (eventually) receive AI-generated insights on fostering
-empathy and resilience. See `Product Requirements Document (PRD).txt` for the full product
-vision.
+empathy and resilience. See [`PRD.md`](./PRD.md) for the full product vision — note that it
+is written in German, as is the rest of `docs/`.
 
 This guide gets a new engineer productive in the codebase quickly. It describes what
 exists **today** and flags where the code is still scaffolding versus the PRD's end goal.
+What to build next lives in [`anforderungen/README.md`](./anforderungen/README.md); the
+process for turning an idea into a buildable requirement is [`PROZESS.md`](./PROZESS.md).
 
 ---
 
@@ -55,7 +57,8 @@ app/
       raw/                                 # Lottie animation files
       drawable/, mipmap-*/                 # icons & vectors
 gradle/libs.versions.toml                  # version catalog — add/bump deps HERE
-Product Requirements Document (PRD).txt    # product spec
+web/                                       # Next.js re-implementation of onboarding (see ADR-003)
+docs/                                      # PRD, requirements, decisions, backlog (German)
 ```
 
 Code is organized **by feature** (`onboarding`, `journal`, `insights`, `settings`), each
@@ -129,9 +132,14 @@ Run the `app` configuration on an emulator (API 33+).
 
 `build.gradle.kts` applies the **secrets-gradle-plugin**. API keys (e.g. a Gemini key) belong
 in `local.properties` (git-ignored) rather than in source or the manifest, and are surfaced
-via `BuildConfig` (`buildConfig = true` is enabled). Do **not** commit keys. Per the PRD, the
-Gemini LLM is planned for sentiment/thematic analysis of entries and generating insights —
-none of that is implemented yet.
+via `BuildConfig` (`buildConfig = true` is enabled). Do **not** commit keys.
+
+The Gemini LLM was originally planned for sentiment/thematic analysis and generating
+insights — **none of that is implemented, and it is deliberately deferred**: `PRD.md` makes
+"no AI until the journal core works" a non-goal, because insights over an empty journal say
+nothing. The declared-but-unused `generativeai` dependency is on the
+[backlog](./BACKLOG.md) to be removed until [A-8](./anforderungen/README.md#übersicht) is
+refined.
 
 ---
 
@@ -151,6 +159,10 @@ none of that is implemented yet.
    Lottie-animated screens.
 2. Read `OnboardingActivity` → `OnboardingStep2Activity` → `OnboardingStep3Activity` to see
    the navigation pattern — it's the template every screen follows.
-3. Skim the PRD to understand where journaling, insights, and notifications are headed.
-4. Pick up a stub (`JournalOverviewActivity` / `SettingsActivity`): give it a layout,
-   register it in the manifest, and wire it into the flow.
+3. Skim [`PRD.md`](./PRD.md) — especially the **non-goals**, they are the part that
+   constrains what you build.
+4. Read [`anforderungen/README.md`](./anforderungen/README.md) to see what is queued.
+   A-1 (write and store an entry) is the foundation everything else needs.
+5. Pick up a stub (`JournalOverviewActivity` / `SettingsActivity`): give it a layout,
+   register it in the manifest, and wire it into the flow. Non-trivial work goes through
+   [`PROZESS.md`](./PROZESS.md) first.

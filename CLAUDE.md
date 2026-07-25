@@ -1,10 +1,55 @@
 # CLAUDE.md
 
-Operational notes for working in this repo. For a broader human-oriented tour, see `ONBOARDING.md`.
+Operational notes for working in this repo. For a broader human-oriented tour, see `docs/ONBOARDING.md`.
 
 ## What this is
 Native **Android** app (Kotlin) — a daily micro-journaling / reflection app for parents.
-Product spec: `Product Requirements Document (PRD).txt`.
+Product spec: `docs/PRD.md`.
+
+There is also a **`web/` directory**: a Next.js 14 project (`positive-parenting-web`)
+that re-implements the same onboarding flow in React/TypeScript/Tailwind. It shares
+no code with `app/` — the two are independent implementations of the same screens.
+Whether it stays a throwaway design prototype or becomes the product is an **open
+decision**, see `docs/entscheidungen/ADR-003-zwei-plattformen.md`. Treat Android as
+the target until that is decided.
+
+## Requirements engineering (`docs/`)
+
+The `docs/` layout is identical across all four projects — Maschinell,
+PositiveParentingReminders, lieferkarte-karlsruhe, BauWatch-KA. It separates by rate
+of change. **These documents are written in German**, unlike the code and this file.
+
+| Layer | Path | Rate of change |
+|---|---|---|
+| Why & what | `docs/PRD.md` | rarely |
+| How it was decided | `docs/entscheidungen/` | **append-only** |
+| What's next | `docs/anforderungen/` | fluid |
+| Technical tasks | `docs/BACKLOG.md` | fluid |
+
+- **Requirements go through `docs/PROZESS.md`, not straight into code.** A
+  non-trivial idea — even phrased as a question ("could we do X?") — gets refined
+  first: survey the code, name the tensions with the non-goals in `docs/PRD.md`,
+  lay out options with a recommendation, let the product owner decide the open
+  questions, then **its own file** `docs/anforderungen/A-<n>-<short-title>.md` plus
+  a row in `docs/anforderungen/README.md` (status lives **only** there).
+  **Implementation only on explicit green light.** The `/anforderung` slash command
+  runs the process.
+- Small fixes and technical chores go straight into `docs/BACKLOG.md`; the dividing
+  line is in the process file ("Anforderung oder Aufgabe? Der Test").
+- Architectural decisions become an ADR in `docs/entscheidungen/`. That folder is
+  **append-only** — an ADR is never rewritten; if a decision is reversed, write a
+  new ADR and set the old one's `Status:` to `ersetzt durch ADR-<n>`.
+- **Raw ideas need no file**, just a row in the overview table with status `💡 Idee`.
+- **Two decisions are currently open** and waiting on the product owner: ADR-002
+  (the account step promises a backend the non-goals rule out) and ADR-003 (two
+  parallel implementations).
+
+> The previous product spec, `Product Requirements Document (PRD).txt`, described a
+> different product than the one in this repo — cross-platform framework, iOS +
+> Android, Firebase backend, LLM integration, E2E encryption, plus DAU/MAU and NPS
+> targets. It is preserved verbatim at
+> `docs/archiv/PRD-urspruenglich-2026-07.txt`; `docs/PRD.md` (v0.2) replaces it and
+> describes what is actually being built.
 
 ## Stack
 - Kotlin `2.2.0`, Gradle (Kotlin DSL) via wrapper `8.14.3`, Android Gradle Plugin `8.12.0`.
