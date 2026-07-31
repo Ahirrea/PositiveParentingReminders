@@ -1,7 +1,7 @@
 # ADR-002: „Account erstellen" im Onboarding — ohne Backend
 
-**Status:** vorgeschlagen — **Entscheidung offen**
-**Datum:** 2026-07-25
+**Status:** akzeptiert — Option B
+**Datum:** 2026-07-25, entschieden 2026-07-31
 
 ## Kontext
 
@@ -43,7 +43,18 @@ Einstieg („Hallo, Katharina"), ohne ein Konto zu versprechen. D widerspricht d
 stärksten Nicht-Ziel des Produkts und sollte nur nach ausdrücklicher Umkehrung
 dieses Nicht-Ziels gewählt werden — dann als eigener ADR.
 
-## Offen
+## Entscheidung
 
-Diese Entscheidung trifft die Ideengeberin. Bis dahin bleibt der Screen, wie er
-ist; der Widerspruch ist im PRD unter „Nicht-Ziele" benannt.
+Die Ideengeberin hat am 2026-07-31 **Option B** gewählt: Der Screen wird zu einem
+**lokalen Profil** umgebaut. Er fragt nur einen Vornamen (optional den des
+Kindes) und speichert lokal; der „Mit Google anmelden"-Knopf und das
+`GoogleLogo`-Icon entfallen.
+
+## Konsequenzen
+
+- Der Umbau der `AccountCreationActivity` ist ein eigener Arbeitsschritt — siehe
+  Zeile A-10 in der [Anforderungsliste](../anforderungen/README.md).
+- Es darf nirgends mehr ein Konto behauptet oder versprochen werden; das
+  Nicht-Ziel „kein Backend, keine Cloud, kein Nutzerkonto" gilt uneingeschränkt.
+- Ein Backend bleibt ausgeschlossen, solange kein neuer ADR dieses Nicht-Ziel
+  ausdrücklich umkehrt.

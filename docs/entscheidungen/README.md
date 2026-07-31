@@ -15,12 +15,8 @@ einer einzelnen Anforderung bleiben in der Anforderungsdatei.
 | Nr. | Entscheidung | Status | Kern |
 |---|---|---|---|
 | [ADR-001](./ADR-001-native-android-klassische-views.md) | Native Android mit klassischen Views | akzeptiert | Nachträglich dokumentiert: gebaut wurde nativ Kotlin, nicht Cross-Platform wie im alten PRD. Das PRD ist korrigiert worden, nicht der Code. |
-| [ADR-002](./ADR-002-account-schritt-ohne-backend.md) | „Account erstellen" im Onboarding — ohne Backend | **offen** | Der Screen verspricht ein Konto, das es laut Nicht-Ziel nicht geben soll. Vier Optionen, Empfehlung: lokales Profil. |
-| [ADR-003](./ADR-003-zwei-plattformen.md) | Zwei parallele Implementierungen (Android + Next.js) | **offen** | `web/` bildet denselben Onboarding-Flow ein zweites Mal ab und steht in keiner Anleitung. Vier Optionen, Empfehlung: Android ist das Produkt, `web/` ist Prototyp. |
-
-**Zwei Entscheidungen sind offen** und warten auf die Ideengeberin. Bis dahin
-beschreibt das PRD den Ist-Zustand und benennt den Widerspruch, statt ihn
-stillschweigend aufzulösen.
+| [ADR-002](./ADR-002-account-schritt-ohne-backend.md) | „Account erstellen" im Onboarding — ohne Backend | akzeptiert | Der Screen verspricht ein Konto, das es laut Nicht-Ziel nicht geben soll. Entschieden: Umbau zu einem **lokalen Profil** (nur Vorname, kein Google-Login). Umsetzung: A-10. |
+| [ADR-003](./ADR-003-zwei-plattformen.md) | Zwei parallele Implementierungen (Android + Next.js) | akzeptiert | `web/` bildet denselben Onboarding-Flow ein zweites Mal ab. Entschieden: **Android ist das Produkt**, `web/` ist ein Design-Prototyp und wird nicht mitgepflegt. |
 
 ## Neuen ADR anlegen
 

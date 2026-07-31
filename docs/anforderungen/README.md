@@ -44,6 +44,7 @@ Anfang: ohne gespeicherte Einträge hat keine andere Anforderung ein Fundament.
 | A-7 | Rückblick über Wochen und Monate | 💡 Idee | Der eigentliche Nutzen des Produkts (PRD „Kernschleife" Schritt 3). `InsightsActivity` hat ein Layout, aber keine Registrierung und keine Daten. Zunächst **regelbasiert** über die eigenen Einträge — bewusst ohne KI. |
 | A-8 | KI-gestützte Insights | 💡 Idee | Die Gemini-Abhängigkeit ist deklariert, aber ungenutzt. Laut PRD-Nicht-Ziel **erst nach** einem funktionierenden Journal-Kern; braucht außerdem eine Feedback-Schleife („war das hilfreich?"), sonst erodiert Vertrauen. |
 | A-9 | Datenexport und vollständiges Löschen | 💡 Idee | Ohne Cloud ist ein Gerätewechsel sonst Datenverlust — dasselbe Argument wie bei den anderen lokalen Projekten. Gehört zum Datenschutz-Versprechen dazu, nicht als Extra. |
+| A-10 | Account-Schritt zu lokalem Profil umbauen | 💡 Idee | Umsetzung von [ADR-002](../entscheidungen/ADR-002-account-schritt-ohne-backend.md) (akzeptiert, Option B): `AccountCreationActivity` fragt nur noch einen Vornamen (optional den des Kindes), speichert lokal; Google-Login-Knopf und `GoogleLogo`-Icon entfallen. |
 
 ## Neue Anforderung aufnehmen
 

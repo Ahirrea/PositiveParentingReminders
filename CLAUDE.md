@@ -8,10 +8,9 @@ Product spec: `docs/PRD.md`.
 
 There is also a **`web/` directory**: a Next.js 14 project (`positive-parenting-web`)
 that re-implements the same onboarding flow in React/TypeScript/Tailwind. It shares
-no code with `app/` — the two are independent implementations of the same screens.
-Whether it stays a throwaway design prototype or becomes the product is an **open
-decision**, see `docs/entscheidungen/ADR-003-zwei-plattformen.md`. Treat Android as
-the target until that is decided.
+no code with `app/` — per **ADR-003 (accepted)** it is a **design prototype only**,
+not maintained alongside the app; see `web/README.md` and
+`docs/entscheidungen/ADR-003-zwei-plattformen.md`. Android is the product.
 
 ## Requirements engineering (`docs/`)
 
@@ -40,9 +39,9 @@ of change. **These documents are written in German**, unlike the code and this f
   **append-only** — an ADR is never rewritten; if a decision is reversed, write a
   new ADR and set the old one's `Status:` to `ersetzt durch ADR-<n>`.
 - **Raw ideas need no file**, just a row in the overview table with status `💡 Idee`.
-- **Two decisions are currently open** and waiting on the product owner: ADR-002
-  (the account step promises a backend the non-goals rule out) and ADR-003 (two
-  parallel implementations).
+- ADR-002 and ADR-003 were **decided on 2026-07-31**: the account step becomes a
+  **local profile** (no Google login, no backend — implementation tracked as A-10),
+  and Android is the product while `web/` is a design prototype.
 
 > The previous product spec, `Product Requirements Document (PRD).txt`, described a
 > different product than the one in this repo — cross-platform framework, iOS +
@@ -54,9 +53,9 @@ of change. **These documents are written in German**, unlike the code and this f
 ## Stack
 - Kotlin `2.2.0`, Gradle (Kotlin DSL) via wrapper `8.14.3`, Android Gradle Plugin `8.12.0`.
 - `minSdk 33`, `compileSdk`/`targetSdk 36`, JVM target `11`.
-- UI is **classic Android Views**: XML layouts + `ConstraintLayout` + `AppCompatActivity` + `findViewById`.
-  Compose and View Binding are toggled on in `app/build.gradle.kts` but **no screen uses them yet** — don't
-  assume they're wired in. The Gemini `generativeai` dependency is declared but **no AI code exists yet**.
+- UI is **classic Android Views**: XML layouts + `ConstraintLayout` + `AppCompatActivity` + `findViewById`
+  (ADR-001). Compose and View Binding are **off** (removed 2026-07-31 after being enabled-but-unused).
+  There is **no AI code and no AI dependency** — Gemini was removed until A-8 is refined.
 - App id / namespace: `com.positiveparenting`.
 
 ## Build / lint / test

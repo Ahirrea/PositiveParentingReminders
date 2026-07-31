@@ -92,12 +92,12 @@ Teil des Dokuments, weil er festlegt, was **nicht** gebaut wird:
 - **Kein Backend, keine Cloud-Synchronisation, kein Nutzerkonto.** Die Einträge
   sind das Intimste, was diese App anfasst. Sie bleiben auf dem Gerät. Damit
   entfallen Firebase, Serverkosten, DSGVO-Auftragsverarbeitung und die gesamte
-  Klasse von Datenleck-Risiken. Der Onboarding-Schritt „Account erstellen"
-  existiert im Code und steht im Widerspruch dazu — siehe
-  [offene Entscheidung](./entscheidungen/ADR-002-account-schritt-ohne-backend.md).
-- **Keine KI, solange der Journal-Kern nicht steht.** Die Gemini-Abhängigkeit ist
-  deklariert, aber ungenutzt. KI-Insights sind wertlos, solange es keine Einträge
-  gibt, über die sie etwas sagen könnten.
+  Klasse von Datenleck-Risiken. Der Onboarding-Schritt „Account erstellen" wird
+  zu einem **lokalen Profil** umgebaut — entschieden in
+  [ADR-002](./entscheidungen/ADR-002-account-schritt-ohne-backend.md).
+- **Keine KI, solange der Journal-Kern nicht steht.** KI-Insights sind wertlos,
+  solange es keine Einträge gibt, über die sie etwas sagen könnten. (Die einst
+  deklarierte, ungenutzte Gemini-Abhängigkeit wurde entfernt.)
 - **Kein iOS in dieser Codebasis.** Es ist eine native Android-App
   ([ADR-001](./entscheidungen/ADR-001-native-android-klassische-views.md)).
 - **Keine Monetarisierung, keine Premium-Funktionen, kein Marketing.** Privates
@@ -155,4 +155,4 @@ gestrichen, weil es keine Nutzerbasis gibt, an der man sie messen könnte:
 | Journaling wird als Pflicht empfunden | Man hört nach zwei Wochen auf | Radikal kurz halten (unter drei Minuten), ruhige Oberfläche, ein Impuls statt einer leeren Seite |
 | Insights bleiben generisch oder unpassend | Vertrauen ist weg, und zwar dauerhaft | Erst regelbasierte Rückblicke über die eigenen Daten, KI später und nur mit Feedback-Schleife |
 | Sensible Daten gehen verloren oder nach außen | Katastrophal — es sind Aussagen über eigene Kinder | Kein Backend, keine Cloud, keine Analytics. Das ist als Nicht-Ziel festgeschrieben, nicht als Absicht |
-| Zwei parallele Implementierungen (Android + Next.js) driften auseinander | Doppelte Arbeit, widersprüchliche Zustände | Offene Entscheidung, siehe [ADR-003](./entscheidungen/ADR-003-zwei-plattformen.md) |
+| Zwei parallele Implementierungen (Android + Next.js) driften auseinander | Doppelte Arbeit, widersprüchliche Zustände | Entschieden: Android ist das Produkt, `web/` ist ein nicht mitgepflegter Design-Prototyp, siehe [ADR-003](./entscheidungen/ADR-003-zwei-plattformen.md) |

@@ -1,7 +1,7 @@
 # ADR-003: Zwei parallele Implementierungen (Android + Next.js)
 
-**Status:** vorgeschlagen — **Entscheidung offen**
-**Datum:** 2026-07-25
+**Status:** akzeptiert — Option A
+**Datum:** 2026-07-25, entschieden 2026-07-31
 
 ## Kontext
 
@@ -51,8 +51,16 @@ Was in jedem Fall passieren muss: **`web/` gehört in `CLAUDE.md` erwähnt.** Ei
 ganzes Next.js-Projekt, das die Anleitung nicht kennt, ist eine Falle für die
 nächste Sitzung.
 
-## Offen
+## Entscheidung
 
-Diese Entscheidung trifft die Ideengeberin. Bis dahin behandelt die
-[Anforderungsliste](../anforderungen/README.md) Android als Ziel — das entspricht
-dem Ist-Zustand, nicht einer getroffenen Entscheidung.
+Die Ideengeberin hat am 2026-07-31 **Option A** gewählt: **Android ist das
+Produkt, `web/` ist ein Design-Prototyp** und wird nicht mitgepflegt.
+
+## Konsequenzen
+
+- `web/` ist per `web/README.md` als „Design-Prototyp, nicht ausgeliefert"
+  gekennzeichnet und wird bei Änderungen am Onboarding **nicht** nachgezogen.
+- Alle Anforderungen in der [Anforderungsliste](../anforderungen/README.md)
+  zielen auf die Android-App.
+- Soll `web/` je zum Produkt werden, kehrt das diese Entscheidung um und braucht
+  einen neuen ADR.

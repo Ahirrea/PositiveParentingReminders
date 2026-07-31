@@ -22,14 +22,13 @@ process for turning an idea into a buildable requirement is [`PROZESS.md`](./PRO
 | UI | Android Views — XML layouts + `ConstraintLayout`, `AppCompatActivity`, `findViewById` |
 | SDK | `minSdk 33`, `compileSdk`/`targetSdk 36`, JVM target `11` |
 | Animations | [Lottie](https://airbnb.io/lottie/) `6.6.7` (`res/raw/*.json`, `*.lottie`) |
-| AI (planned) | Google Gemini via `com.google.ai.client.generativeai` |
+| AI | none — deliberately deferred until the journal core works (see A-8) |
 | App id / namespace | `com.positiveparenting` |
 
-> **Heads-up on "enabled but unused" features.** `build.gradle.kts` turns on Jetpack
-> Compose (`buildFeatures.compose = true`) and View Binding (`viewBinding = true`), and the
-> Gemini `generativeai` dependency is declared. As of today the screens are all
-> **classic XML + `findViewById`** and **no Gemini calls exist yet**. Don't assume Compose
-> or AI is wired in just because the toggles are on — check the actual screen first.
+> **No Compose, no View Binding, no AI dependency.** Both toggles and the Gemini
+> `generativeai` dependency were enabled-but-unused for a while and have been removed
+> (2026-07-31). All screens are **classic XML + `findViewById`** — that is the deliberate
+> choice, see ADR-001.
 
 ---
 
@@ -57,7 +56,7 @@ app/
       raw/                                 # Lottie animation files
       drawable/, mipmap-*/                 # icons & vectors
 gradle/libs.versions.toml                  # version catalog — add/bump deps HERE
-web/                                       # Next.js re-implementation of onboarding (see ADR-003)
+web/                                       # design prototype only, not maintained (ADR-003)
 docs/                                      # PRD, requirements, decisions, backlog (German)
 ```
 
@@ -128,18 +127,17 @@ Run the `app` configuration on an emulator (API 33+).
 
 ---
 
-## Secrets & the Gemini integration (when you get there)
+## Secrets & future AI integration (when you get there)
 
-`build.gradle.kts` applies the **secrets-gradle-plugin**. API keys (e.g. a Gemini key) belong
-in `local.properties` (git-ignored) rather than in source or the manifest, and are surfaced
+`build.gradle.kts` applies the **secrets-gradle-plugin**. API keys belong in
+`local.properties` (git-ignored) rather than in source or the manifest, and are surfaced
 via `BuildConfig` (`buildConfig = true` is enabled). Do **not** commit keys.
 
-The Gemini LLM was originally planned for sentiment/thematic analysis and generating
+An LLM (originally Gemini) was planned for sentiment/thematic analysis and generating
 insights — **none of that is implemented, and it is deliberately deferred**: `PRD.md` makes
 "no AI until the journal core works" a non-goal, because insights over an empty journal say
-nothing. The declared-but-unused `generativeai` dependency is on the
-[backlog](./BACKLOG.md) to be removed until [A-8](./anforderungen/README.md#übersicht) is
-refined.
+nothing. The once declared-but-unused `generativeai` dependency has been removed; it comes
+back only with a refined [A-8](./anforderungen/README.md#übersicht).
 
 ---
 

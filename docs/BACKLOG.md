@@ -5,23 +5,25 @@ Technische Aufgaben und Fixes. **Ausgearbeitete Anforderungen** stehen in
 festen [Refinement-Prozess](./PROZESS.md) — die Trennlinie steht dort unter
 „Anforderung oder Aufgabe? Der Test".
 
-Stand: 2026-07-25. Reihenfolge = Priorität.
+Stand: 2026-07-31. Reihenfolge = Priorität.
 
 ## Hoch — irreführender Projektzustand
 
 Diese drei Punkte kosten nichts außer Aufräumen, aber jeder von ihnen lässt das
 Projekt nach einer Entscheidung aussehen, die nie getroffen wurde:
 
-- [ ] **Compose und View Binding sind aktiviert, aber ungenutzt.** In
-  `app/build.gradle.kts` eingeschaltet, **kein** Screen benutzt sie. Entweder
-  bewusst nutzen (dann als ADR) oder abschalten. Siehe
+- [x] **Compose und View Binding sind aktiviert, aber ungenutzt.** *Erledigt
+  2026-07-31:* abgeschaltet — Compose-Plugin, Compose-Abhängigkeiten und beide
+  `buildFeatures`-Flags entfernt, passend zu
   [ADR-001](./entscheidungen/ADR-001-native-android-klassische-views.md).
-- [ ] **Gemini-Abhängigkeit (`generativeai`) ist deklariert, aber es gibt keinen
-  KI-Code.** Bis A-8 verfeinert ist, gehört sie entfernt — eine deklarierte
-  Abhängigkeit ohne Nutzung sieht wie eine Integration aus.
-- [ ] **`web/` fehlt in `CLAUDE.md`.** Ein vollständiges Next.js-Projekt, von dem
-  die Anleitung nichts weiß, ist eine Falle für die nächste Sitzung. Hängt an
-  [ADR-003](./entscheidungen/ADR-003-zwei-plattformen.md).
+- [x] **Gemini-Abhängigkeit (`generativeai`) ist deklariert, aber es gibt keinen
+  KI-Code.** *Erledigt 2026-07-31:* entfernt (Dependency und Katalog-Eintrag).
+  Kommt erst mit einer verfeinerten A-8 zurück. Das secrets-gradle-plugin bleibt
+  für künftige Keys bestehen.
+- [x] **`web/` fehlt in `CLAUDE.md`.** *Erledigt:* `CLAUDE.md` beschreibt `web/`
+  inzwischen; seit [ADR-003](./entscheidungen/ADR-003-zwei-plattformen.md)
+  (akzeptiert, Option A) ist es zudem per `web/README.md` als Design-Prototyp
+  gekennzeichnet.
 
 ## Mittel — Grundlagen
 
