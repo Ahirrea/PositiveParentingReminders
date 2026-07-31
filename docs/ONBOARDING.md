@@ -44,7 +44,8 @@ app/
         OnboardingActivity.kt              # LAUNCHER entry point
         OnboardingStep2Activity.kt
         OnboardingStep3Activity.kt
-        AccountCreationActivity.kt
+        ProfileSetupActivity.kt            # local profile — no account (ADR-002/A-10)
+      profile/                             # LocalProfile + LocalProfileStore (SharedPreferences)
       journal/                             # stubs — setContentView is commented out
         JournalOverviewActivity.kt
         JournalEditorActivity.kt
@@ -70,12 +71,15 @@ its own package under `com.positiveparenting`.
 The only navigable path wired into `AndroidManifest.xml`:
 
 ```
-OnboardingActivity (LAUNCHER)  →  OnboardingStep2Activity  →  OnboardingStep3Activity  →  AccountCreationActivity
-      "Let's go"                       "Next"                     "Understood"
+OnboardingActivity (LAUNCHER)  →  OnboardingStep2Activity  →  OnboardingStep3Activity  →  ProfileSetupActivity
+      "Let's go"                       "Next"                     "Understood"            "Profil speichern"
 ```
 
 Each activity is a thin `AppCompatActivity`: it calls `setContentView(R.layout.…)` and wires
-one button's `setOnClickListener` to `startActivity(Intent(...))` for the next screen.
+one button's `setOnClickListener` to `startActivity(Intent(...))` for the next screen. The
+final step stores a **local profile** (first name, optional child's name) in
+SharedPreferences and sets the `onboarding_complete` flag — no account, no backend
+(ADR-002); the launcher redirect that reads the flag arrives with A-1.
 
 `journal/`, `insights/`, and `settings/` exist as classes but are **not** registered in the
 manifest and several have their `setContentView` commented out — they are placeholders for
@@ -106,9 +110,9 @@ wrapper — never a globally installed `gradle`.
 The easiest path is to open the project root in **Android Studio**, let it sync Gradle, then
 Run the `app` configuration on an emulator (API 33+).
 
-> **Note:** There are currently **no meaningful tests** — only the default JUnit/Espresso
-> dependencies. If you add logic worth testing, put unit tests under `app/src/test/` and
-> instrumented tests under `app/src/androidTest/` (create those dirs; they don't exist yet).
+> **Note:** JVM unit tests live under `app/src/test/` (first suite: `LocalProfileTest`).
+> There are no instrumented tests yet — put them under `app/src/androidTest/` (create that
+> dir; it doesn't exist yet).
 
 ---
 

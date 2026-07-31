@@ -40,7 +40,7 @@ of change. **These documents are written in German**, unlike the code and this f
   new ADR and set the old one's `Status:` to `ersetzt durch ADR-<n>`.
 - **Raw ideas need no file**, just a row in the overview table with status `💡 Idee`.
 - ADR-002 and ADR-003 were **decided on 2026-07-31**: the account step becomes a
-  **local profile** (no Google login, no backend — implementation tracked as A-10),
+  **local profile** (no Google login, no backend — implemented as A-10, done),
   and Android is the product while `web/` is a design prototype.
 
 > The previous product spec, `Product Requirements Document (PRD).txt`, described a
@@ -74,16 +74,16 @@ JUnit fetched from Maven Central (reachable by default).
 ./gradlew test                   # JVM unit tests
 ./gradlew connectedAndroidTest   # instrumented tests (needs device/emulator)
 ```
-There are **no real tests yet** — only the default JUnit/Espresso deps, and no `app/src/test/` or
-`app/src/androidTest/` dirs. Create them when adding tests.
+JVM tests live in `app/src/test/` (first suite: `LocalProfileTest`, added with A-10).
+There is **no `app/src/androidTest/` yet** — create it when adding instrumented tests.
 
 ## Conventions
 - **Dependencies go through the version catalog** `gradle/libs.versions.toml`, referenced as `libs.…` in
   `app/build.gradle.kts`. (Lottie is the one hardcoded exception today.)
 - User-facing text → `app/src/main/res/values/strings.xml`; colors → `colors.xml`. No hardcoded UI strings.
-- UI-string language is mixed by design: the journal editor and `daily_prompts` are
-  **German** (per the A-1 spec — the target user writes German); the onboarding flow
-  is still English and gets reworked with A-10. New user-facing strings: German.
+- UI-string language is mixed by design: the journal editor, `daily_prompts` and the
+  profile step (A-10) are **German** (the target user writes German); onboarding
+  steps 1–3 are still English. New user-facing strings: German.
 - View ids use `snake_case` (`lets_go_button`, `title_textview`).
 - One activity ↔ one `res/layout/activity_*.xml`, wired with `findViewById`.
 - **Every new screen must be registered** in `app/src/main/AndroidManifest.xml` (`exported="false"` unless it's
@@ -92,7 +92,10 @@ There are **no real tests yet** — only the default JUnit/Espresso deps, and no
 
 ## Code map (feature packages under `app/src/main/java/com/positiveparenting/`)
 - `onboarding/` — the only fully wired flow. Launcher is `OnboardingActivity` →
-  `OnboardingStep2Activity` → `OnboardingStep3Activity` → `AccountCreationActivity`.
+  `OnboardingStep2Activity` → `OnboardingStep3Activity` → `ProfileSetupActivity`
+  (local profile, ADR-002/A-10).
+- `profile/` — `LocalProfile` (pure Kotlin, JVM-tested) + `LocalProfileStore`
+  (SharedPreferences: names + `onboarding_complete` flag).
 - `journal/` — `JournalOverviewActivity`, `JournalEditorActivity`: **stubs** (`setContentView` commented out),
   not in the manifest.
 - `insights/InsightsActivity` — has a layout, not yet in the manifest.

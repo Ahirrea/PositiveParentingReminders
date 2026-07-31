@@ -23,7 +23,7 @@ Minuten, ein geführter Impuls, Stimmung festhalten"
   `TextView` mit hartkodiertem Text). Wird ersetzt.
 - Der Activity-Bauplan aus dem Onboarding ist wiederverwendbar: dünne
   `AppCompatActivity`, `findViewById`, Material-Komponenten
-  (`MaterialButton`, `TextInputLayout` wie in `AccountCreationActivity`).
+  (`MaterialButton`, `TextInputLayout` wie in `ProfileSetupActivity`).
 - `onboarding/OnboardingActivity.kt` — Launcher; bekommt die Weiche
   „Onboarding erledigt → direkt in den Editor".
 - **Fehlt komplett:** Persistenz (kein Datenmodell, keine Datenbank, kein
@@ -105,8 +105,9 @@ Zustände: *leer* (Speichern aus) → *schreibend* (Speichern an) →
 - `OnboardingActivity.onCreate`: steht das SharedPreferences-Flag
   `onboarding_complete`, sofort `startActivity(JournalEditorActivity)` +
   `finish()`.
-- Das Flag setzt heute der Abschluss-Knopf der `AccountCreationActivity`;
-  A-10 (Umbau zum lokalen Profil) übernimmt diesen Punkt mit.
+- Das Flag setzt seit [A-10](./A-10-lokales-profil.md) der Speichern-Knopf
+  der `ProfileSetupActivity` (`LocalProfileStore.save()`, Schlüssel
+  `onboarding_complete`); A-1 baut nur noch die lesende Weiche im Launcher.
 - Neue Activity **im Manifest registrieren** (`exported="false"`).
 
 ### Datenmodell / Persistenz (Room, ADR-004)
