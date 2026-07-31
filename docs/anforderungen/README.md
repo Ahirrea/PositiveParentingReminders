@@ -35,10 +35,10 @@ Anfang: ohne gespeicherte Einträge hat keine andere Anforderung ein Fundament.
 
 | Nr. | Anforderung | Status | Worum es geht |
 |---|---|---|---|
-| A-1 | Eintrag schreiben und speichern | 💡 Idee | Der Kern des Produkts: Textfeld, Stimmung, Speichern. `JournalEditorActivity` ist ein Stub. **Enthält die offene Frage, welche lokale Persistenz** (Room / DataStore / SQLite) — die Entscheidung wird beim Verfeinern zum ADR. Bedient PRD „Kernschleife" Schritt 2. |
+| A-1 | [Eintrag schreiben und speichern](./A-1-eintrag-schreiben-und-speichern.md) | ✅ bereit | Der Kern des Produkts: Tagesimpuls, Textfeld, Stimmung, Speichern — lokal in Room ([ADR-004](../entscheidungen/ADR-004-room-als-lokale-persistenz.md)). Bedient PRD „Kernschleife" Schritte 1–2. |
 | A-2 | Journal-Übersicht | 💡 Idee | Liste der eigenen Einträge, chronologisch, zum Wiederlesen. `JournalOverviewActivity` ist ein Stub. Setzt A-1 voraus. |
 | A-3 | Ein Impuls pro Tag als Notification | 💡 Idee | „Einen einzigen Impuls pro Tag" ist die User Story, an der die ganze Gewohnheit hängt. Es existiert noch kein Notification-Code, und die Uhrzeit gehört konfigurierbar (→ A-6). |
-| A-4 | Stimmung erfassen | 💡 Idee | Ohne strukturierte Stimmung gibt es keinen Verlauf, den ein Rückblick zeigen könnte. Kann Teil von A-1 werden — beim Verfeinern entscheiden, ob eigenständig. |
+| A-4 | Stimmung erfassen | 🗑 verworfen | Aufgegangen in [A-1](./A-1-eintrag-schreiben-und-speichern.md) (Entscheidung vom 2026-07-31): die Stimmungsauswahl gehört von Anfang an in den Editor, sonst fehlen dem Rückblick später die Daten. |
 | A-5 | Einträge mit Themen versehen | 💡 Idee | „Streit ums Zubettgehen", „Geschwisterstreit" — die Voraussetzung dafür, wiederkehrende Situationen überhaupt zu erkennen. Offen: feste Themenliste oder freie Schlagworte. |
 | A-6 | Einstellungen | 💡 Idee | Erinnerungszeit, Name, Datenexport/-löschung. `SettingsActivity` ist ein Stub. |
 | A-7 | Rückblick über Wochen und Monate | 💡 Idee | Der eigentliche Nutzen des Produkts (PRD „Kernschleife" Schritt 3). `InsightsActivity` hat ein Layout, aber keine Registrierung und keine Daten. Zunächst **regelbasiert** über die eigenen Einträge — bewusst ohne KI. |

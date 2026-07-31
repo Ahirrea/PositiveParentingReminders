@@ -136,9 +136,9 @@ gestrichen, weil es keine Nutzerbasis gibt, an der man sie messen könnte:
 - **App-Id / Namespace:** `com.positiveparenting`.
 - **Abhängigkeiten** laufen über den Version-Katalog
   `gradle/libs.versions.toml` (Lottie ist heute die einzige Ausnahme).
-- **Datenhaltung:** ausschließlich lokal auf dem Gerät. Welche Technik (Room,
-  DataStore, SQLite) ist noch nicht entschieden und gehört zur ersten
-  Journal-Anforderung.
+- **Datenhaltung:** ausschließlich lokal auf dem Gerät, in **Room** — entschieden
+  in [ADR-004](./entscheidungen/ADR-004-room-als-lokale-persistenz.md) im Zuge
+  der Verfeinerung von A-1.
 - **Secrets:** API-Keys gehören in `local.properties` (git-ignoriert) und werden
   über `BuildConfig` per secrets-gradle-plugin durchgereicht. Niemals Keys oder
   eine `local.properties` committen.

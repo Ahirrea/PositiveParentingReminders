@@ -17,6 +17,7 @@ einer einzelnen Anforderung bleiben in der Anforderungsdatei.
 | [ADR-001](./ADR-001-native-android-klassische-views.md) | Native Android mit klassischen Views | akzeptiert | Nachträglich dokumentiert: gebaut wurde nativ Kotlin, nicht Cross-Platform wie im alten PRD. Das PRD ist korrigiert worden, nicht der Code. |
 | [ADR-002](./ADR-002-account-schritt-ohne-backend.md) | „Account erstellen" im Onboarding — ohne Backend | akzeptiert | Der Screen verspricht ein Konto, das es laut Nicht-Ziel nicht geben soll. Entschieden: Umbau zu einem **lokalen Profil** (nur Vorname, kein Google-Login). Umsetzung: A-10. |
 | [ADR-003](./ADR-003-zwei-plattformen.md) | Zwei parallele Implementierungen (Android + Next.js) | akzeptiert | `web/` bildet denselben Onboarding-Flow ein zweites Mal ab. Entschieden: **Android ist das Produkt**, `web/` ist ein Design-Prototyp und wird nicht mitgepflegt. |
+| [ADR-004](./ADR-004-room-als-lokale-persistenz.md) | Room als lokale Persistenz | akzeptiert | Journal-Daten liegen in Room (SQLite + DAO): A-2/A-7 sind Abfrage-Anforderungen, Migrationen eingebaut. Kleinstdaten (Flags, Profil) bleiben außerhalb der DB. |
 
 ## Neuen ADR anlegen
 
