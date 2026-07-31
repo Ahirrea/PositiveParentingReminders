@@ -60,6 +60,14 @@ of change. **These documents are written in German**, unlike the code and this f
 
 ## Build / lint / test
 Use the wrapper, never a global `gradle`. Requires JDK 17+ and the Android SDK (see the SessionStart hook).
+
+In Claude Code web sessions, `./gradlew` only works if the environment's network
+policy allows `dl.google.com` (Android SDK **and** Google Maven: AGP, Room, androidx)
+and `services.gradle.org` (+ its `github.com` redirect). Before building, check the
+SessionStart hook actually finished (`local.properties` with `sdk.dir` exists — the
+hook can die silently). If Google hosts are blocked, pure-JVM code can still be
+verified manually: compile and run the `app/src/test/` tests with kotlin-compiler +
+JUnit fetched from Maven Central (reachable by default).
 ```bash
 ./gradlew assembleDebug          # build debug APK
 ./gradlew lint                   # Android lint
@@ -73,6 +81,9 @@ JVM unit tests live in `app/src/test/` (e.g. `PromptProviderTest`), instrumented
 - **Dependencies go through the version catalog** `gradle/libs.versions.toml`, referenced as `libs.…` in
   `app/build.gradle.kts`. (Lottie is the one hardcoded exception today.)
 - User-facing text → `app/src/main/res/values/strings.xml`; colors → `colors.xml`. No hardcoded UI strings.
+- UI-string language is mixed by design: the journal editor and `daily_prompts` are
+  **German** (per the A-1 spec — the target user writes German); the onboarding flow
+  is still English and gets reworked with A-10. New user-facing strings: German.
 - View ids use `snake_case` (`lets_go_button`, `title_textview`).
 - One activity ↔ one `res/layout/activity_*.xml`, wired with `findViewById`.
 - **Every new screen must be registered** in `app/src/main/AndroidManifest.xml` (`exported="false"` unless it's
