@@ -22,6 +22,7 @@ process for turning an idea into a buildable requirement is [`PROZESS.md`](./PRO
 | UI | Android Views — XML layouts + `ConstraintLayout`, `AppCompatActivity`, `findViewById` |
 | SDK | `minSdk 33`, `compileSdk`/`targetSdk 36`, JVM target `11` |
 | Animations | [Lottie](https://airbnb.io/lottie/) `6.6.7` (`res/raw/*.json`, `*.lottie`) |
+| Persistence | [Room](https://developer.android.com/training/data-storage/room) — local only, excluded from Android backup (ADR-004) |
 | AI | none — deliberately deferred until the journal core works (see A-8) |
 | App id / namespace | `com.positiveparenting` |
 
@@ -38,16 +39,22 @@ process for turning an idea into a buildable requirement is [`PROZESS.md`](./PRO
 app/
   build.gradle.kts                         # module build config, dependencies
   src/main/
-    AndroidManifest.xml                    # only the onboarding flow is registered today
+    AndroidManifest.xml                    # onboarding flow + journal editor are registered
     java/com/positiveparenting/
-      onboarding/                          # the only fully wired flow
+      onboarding/                          # runs once, then forwards to the editor
         OnboardingActivity.kt              # LAUNCHER entry point
         OnboardingStep2Activity.kt
         OnboardingStep3Activity.kt
-        AccountCreationActivity.kt
-      journal/                             # stubs — setContentView is commented out
-        JournalOverviewActivity.kt
-        JournalEditorActivity.kt
+        AccountCreationActivity.kt         # completing it sets the onboarding_complete flag
+        OnboardingPrefs.kt                 # SharedPreferences flag
+      journal/
+        JournalEditorActivity.kt           # A-1: prompt, text, mood, save to Room
+        PromptProvider.kt                  # daily prompt rotation (epochDay mod size)
+        JournalOverviewActivity.kt         # stub — setContentView is commented out
+      data/                                # Room persistence (ADR-004)
+        JournalEntry.kt                    # entity: text, mood (1–5, nullable), prompt
+        JournalEntryDao.kt                 # insert only — reads come with A-2
+        AppDatabase.kt                     # journal.db, excluded from Android backup
       insights/InsightsActivity.kt         # has a layout, not yet in the manifest
       settings/SettingsActivity.kt         # stub
     res/
@@ -67,19 +74,24 @@ its own package under `com.positiveparenting`.
 
 ## How the app flows today
 
-The only navigable path wired into `AndroidManifest.xml`:
+First start (onboarding not yet completed):
 
 ```
-OnboardingActivity (LAUNCHER)  →  OnboardingStep2Activity  →  OnboardingStep3Activity  →  AccountCreationActivity
-      "Let's go"                       "Next"                     "Understood"
+OnboardingActivity (LAUNCHER)  →  OnboardingStep2Activity  →  OnboardingStep3Activity  →  AccountCreationActivity  →  JournalEditorActivity
+      "Let's go"                       "Next"                     "Understood"                "Create account"
 ```
+
+Completing the last onboarding step sets the `onboarding_complete` SharedPreferences flag
+(`OnboardingPrefs`). On every later start, `OnboardingActivity` forwards straight to
+`JournalEditorActivity` — the core loop (A-1): see today's prompt, write a few sentences,
+optionally tap a mood, save to the local Room database.
 
 Each activity is a thin `AppCompatActivity`: it calls `setContentView(R.layout.…)` and wires
-one button's `setOnClickListener` to `startActivity(Intent(...))` for the next screen.
+its views with `findViewById`.
 
-`journal/`, `insights/`, and `settings/` exist as classes but are **not** registered in the
-manifest and several have their `setContentView` commented out — they are placeholders for
-the journaling and insights features described in the PRD. Expect to flesh these out.
+`JournalOverviewActivity`, `insights/`, and `settings/` exist as classes but are **not**
+registered in the manifest — they are placeholders for the features described in the PRD
+(A-2, A-7, A-6). Expect to flesh these out.
 
 ---
 
@@ -106,9 +118,9 @@ wrapper — never a globally installed `gradle`.
 The easiest path is to open the project root in **Android Studio**, let it sync Gradle, then
 Run the `app` configuration on an emulator (API 33+).
 
-> **Note:** There are currently **no meaningful tests** — only the default JUnit/Espresso
-> dependencies. If you add logic worth testing, put unit tests under `app/src/test/` and
-> instrumented tests under `app/src/androidTest/` (create those dirs; they don't exist yet).
+> **Note:** JVM unit tests live under `app/src/test/` (e.g. `PromptProviderTest`),
+> instrumented tests under `app/src/androidTest/` (e.g. `JournalEntryDaoTest` against an
+> in-memory Room database — needs a device/emulator).
 
 ---
 

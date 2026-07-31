@@ -66,8 +66,8 @@ Use the wrapper, never a global `gradle`. Requires JDK 17+ and the Android SDK (
 ./gradlew test                   # JVM unit tests
 ./gradlew connectedAndroidTest   # instrumented tests (needs device/emulator)
 ```
-There are **no real tests yet** — only the default JUnit/Espresso deps, and no `app/src/test/` or
-`app/src/androidTest/` dirs. Create them when adding tests.
+JVM unit tests live in `app/src/test/` (e.g. `PromptProviderTest`), instrumented tests in
+`app/src/androidTest/` (e.g. `JournalEntryDaoTest` against in-memory Room).
 
 ## Conventions
 - **Dependencies go through the version catalog** `gradle/libs.versions.toml`, referenced as `libs.…` in
@@ -76,14 +76,21 @@ There are **no real tests yet** — only the default JUnit/Espresso deps, and no
 - View ids use `snake_case` (`lets_go_button`, `title_textview`).
 - One activity ↔ one `res/layout/activity_*.xml`, wired with `findViewById`.
 - **Every new screen must be registered** in `app/src/main/AndroidManifest.xml` (`exported="false"` unless it's
-  a launcher/deep-link target). Only the onboarding flow is registered today.
+  a launcher/deep-link target). Registered today: the onboarding flow and `JournalEditorActivity`.
 - Kotlin official code style (`kotlin.code.style=official`).
 
 ## Code map (feature packages under `app/src/main/java/com/positiveparenting/`)
-- `onboarding/` — the only fully wired flow. Launcher is `OnboardingActivity` →
-  `OnboardingStep2Activity` → `OnboardingStep3Activity` → `AccountCreationActivity`.
-- `journal/` — `JournalOverviewActivity`, `JournalEditorActivity`: **stubs** (`setContentView` commented out),
-  not in the manifest.
+- `onboarding/` — launcher flow: `OnboardingActivity` → `OnboardingStep2Activity` →
+  `OnboardingStep3Activity` → `AccountCreationActivity`. Runs once: completing it sets the
+  `onboarding_complete` SharedPreferences flag (`OnboardingPrefs`); afterwards the launcher
+  forwards straight to the journal editor.
+- `journal/` — `JournalEditorActivity` (A-1): daily prompt (`PromptProvider`, rotates over the
+  `daily_prompts` string-array by epoch day), multiline text, optional 5-step mood, saves to Room.
+  `JournalOverviewActivity` is still a **stub** (`setContentView` commented out), not in the manifest.
+- `data/` — Room persistence (ADR-004): `JournalEntry` entity, `JournalEntryDao`, `AppDatabase`
+  singleton (`journal.db`, version 1, schema snapshots in `app/schemas/`). The DB is excluded from
+  Android backup/device transfer (`res/xml/backup_rules.xml`, `data_extraction_rules.xml`) — entries
+  must never leave the device.
 - `insights/InsightsActivity` — has a layout, not yet in the manifest.
 - `settings/SettingsActivity` — stub.
 

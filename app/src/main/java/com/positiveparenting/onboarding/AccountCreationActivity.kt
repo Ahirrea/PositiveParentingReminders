@@ -1,5 +1,6 @@
 package com.positiveparenting.onboarding
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +11,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.positiveparenting.R
+import com.positiveparenting.journal.JournalEditorActivity
 
 class AccountCreationActivity : AppCompatActivity() {
 
@@ -38,13 +40,11 @@ class AccountCreationActivity : AppCompatActivity() {
         })
 
         createAccountButton.setOnClickListener {
-            // In a real app, you would perform the account creation logic here.
-            // For now, we just show a success message.
-            Toast.makeText(
-                this,
-                getString(R.string.account_creation_success_message),
-                Toast.LENGTH_SHORT
-            ).show()
+            // Finishing this step completes the onboarding; the real account step is
+            // replaced by a local profile with A-10 (ADR-002), which takes this over.
+            OnboardingPrefs.setOnboardingComplete(this)
+            startActivity(Intent(this, JournalEditorActivity::class.java))
+            finish()
         }
 
         googleSignInButton.setOnClickListener {

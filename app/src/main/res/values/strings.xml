@@ -22,4 +22,36 @@
     <string name="account_creation_success_message">Thanks! Full account creation is coming soon.</string>
     <string name="account_creation_google_coming_soon">Google sign-in is coming soon.</string>
     <string name="invalid_email_message">Invalid email format</string>
+
+    <!-- Journal editor (A-1). Editor texts are German, matching the prompts and the target user. -->
+    <string name="journal_editor_text_hint">Ein paar Sätze reichen …</string>
+    <string name="journal_editor_mood_label">Wie hat sich der Tag angefühlt? (optional)</string>
+    <string name="journal_editor_save_button">Speichern</string>
+    <string name="journal_editor_saved_confirmation">Gespeichert</string>
+    <string name="journal_editor_save_error">Speichern hat nicht geklappt – dein Text bleibt erhalten.</string>
+
+    <string name="mood_symbol_1" translatable="false">😖</string>
+    <string name="mood_symbol_2" translatable="false">🙁</string>
+    <string name="mood_symbol_3" translatable="false">😐</string>
+    <string name="mood_symbol_4" translatable="false">🙂</string>
+    <string name="mood_symbol_5" translatable="false">😄</string>
+    <string name="mood_description_1">Stimmung: sehr schwer</string>
+    <string name="mood_description_2">Stimmung: eher schwer</string>
+    <string name="mood_description_3">Stimmung: durchwachsen</string>
+    <string name="mood_description_4">Stimmung: gut</string>
+    <string name="mood_description_5">Stimmung: sehr gut</string>
+
+    <!-- Rotation: index = epochDay mod size (PromptProvider). Order matters. -->
+    <string-array name="daily_prompts">
+        <item>Wann warst du heute stolz auf dich?</item>
+        <item>Welcher Moment mit deinem Kind hat dich heute zum Lächeln gebracht?</item>
+        <item>Was hat dich heute aus der Ruhe gebracht – und was war der Auslöser?</item>
+        <item>Wann hast du deinem Kind heute wirklich zugehört?</item>
+        <item>Wofür bist du heute dankbar?</item>
+        <item>Welche Situation würdest du rückblickend anders angehen?</item>
+        <item>Was hat dein Kind heute gebraucht – und was hast du gebraucht?</item>
+        <item>Wo bist du heute ruhig geblieben, obwohl es schwer war?</item>
+        <item>Welchen kleinen Erfolg möchtest du festhalten?</item>
+        <item>Was wünschst du dir für morgen?</item>
+    </string-array>
 </resources>

@@ -27,18 +27,18 @@ Projekt nach einer Entscheidung aussehen, die nie getroffen wurde:
 
 ## Mittel — Grundlagen
 
-- [ ] **Test-Suite anlegen.** Es gibt weder `app/src/test/` noch
-  `app/src/androidTest/`, nur die Standard-JUnit-/Espresso-Abhängigkeiten. Der
-  erste echte Test entsteht sinnvollerweise mit A-1 (Persistenz ist testbar, UI
-  weniger).
+- [x] **Test-Suite anlegen.** *Erledigt mit A-1:* `app/src/test/`
+  (`PromptProviderTest`) und `app/src/androidTest/` (`JournalEntryDaoTest`
+  gegen In-Memory-Room) existieren jetzt.
 - [ ] **Lottie über den Version-Katalog ziehen.** Heute die einzige hartkodierte
   Abhängigkeit in `app/build.gradle.kts`; alle anderen laufen über
   `gradle/libs.versions.toml`.
 - [ ] **Stub-Activities registrieren, sobald sie Inhalt haben.**
-  `JournalOverviewActivity`, `JournalEditorActivity`, `InsightsActivity`,
-  `SettingsActivity` fehlen im `AndroidManifest.xml` (`exported="false"`). Ein
-  unregistrierter Screen ist nicht erreichbar — das gehört in die Definition of
-  Done jeder Anforderung, die einen Screen baut.
+  `JournalOverviewActivity`, `InsightsActivity` und `SettingsActivity` fehlen
+  weiterhin im `AndroidManifest.xml` (`exported="false"`);
+  `JournalEditorActivity` ist seit A-1 registriert. Ein unregistrierter Screen
+  ist nicht erreichbar — das gehört in die Definition of Done jeder
+  Anforderung, die einen Screen baut.
 
 ## Niedrig
 
