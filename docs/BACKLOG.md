@@ -27,10 +27,10 @@ Projekt nach einer Entscheidung aussehen, die nie getroffen wurde:
 
 ## Mittel — Grundlagen
 
-- [ ] **Test-Suite anlegen.** Es gibt weder `app/src/test/` noch
-  `app/src/androidTest/`, nur die Standard-JUnit-/Espresso-Abhängigkeiten. Der
-  erste echte Test entsteht sinnvollerweise mit A-1 (Persistenz ist testbar, UI
-  weniger).
+- [ ] **Test-Suite anlegen.** *Halb erledigt 2026-07-31:* `app/src/test/`
+  existiert seit [A-10](./anforderungen/A-10-lokales-profil.md)
+  (`LocalProfileTest`). `app/src/androidTest/` fehlt weiterhin und entsteht
+  sinnvollerweise mit A-1 (DAO-Test gegen In-Memory-Room).
 - [ ] **Lottie über den Version-Katalog ziehen.** Heute die einzige hartkodierte
   Abhängigkeit in `app/build.gradle.kts`; alle anderen laufen über
   `gradle/libs.versions.toml`.

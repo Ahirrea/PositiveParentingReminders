@@ -30,7 +30,7 @@
             android:exported="false"
             android:theme="@style/Theme.PositiveParentingReminders" />
         <activity
-            android:name="com.positiveparenting.onboarding.AccountCreationActivity"
+            android:name="com.positiveparenting.onboarding.ProfileSetupActivity"
             android:exported="false"
             android:theme="@style/Theme.PositiveParentingReminders" />
     </application>

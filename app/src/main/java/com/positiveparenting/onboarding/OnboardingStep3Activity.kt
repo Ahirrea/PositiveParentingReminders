@@ -13,7 +13,7 @@ class OnboardingStep3Activity : AppCompatActivity() {
 
         val understoodButton: Button = findViewById(R.id.understood_button)
         understoodButton.setOnClickListener {
-            val intent = Intent(this, AccountCreationActivity::class.java)
+            val intent = Intent(this, ProfileSetupActivity::class.java)
             startActivity(intent)
         }
     }
