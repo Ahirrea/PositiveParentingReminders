@@ -22,6 +22,7 @@ process for turning an idea into a buildable requirement is [`PROZESS.md`](./PRO
 | UI | Android Views — XML layouts + `ConstraintLayout`, `AppCompatActivity`, `findViewById` |
 | SDK | `minSdk 33`, `compileSdk`/`targetSdk 36`, JVM target `11` |
 | Animations | [Lottie](https://airbnb.io/lottie/) `6.6.7` (`res/raw/*.json`, `*.lottie`) |
+| Persistence | [Room](https://developer.android.com/training/data-storage/room) (ADR-004) via KSP — local only, DB excluded from Android backup |
 | AI | none — deliberately deferred until the journal core works (see A-8) |
 | App id / namespace | `com.positiveparenting` |
 
@@ -37,25 +38,31 @@ process for turning an idea into a buildable requirement is [`PROZESS.md`](./PRO
 ```
 app/
   build.gradle.kts                         # module build config, dependencies
+  schemas/                                 # Room schema history (checked in — migrations, ADR-004)
   src/main/
-    AndroidManifest.xml                    # only the onboarding flow is registered today
+    AndroidManifest.xml                    # onboarding flow + JournalEditorActivity are registered
     java/com/positiveparenting/
-      onboarding/                          # the only fully wired flow
+      onboarding/                          # runs once, then redirects into the editor
         OnboardingActivity.kt              # LAUNCHER entry point
         OnboardingStep2Activity.kt
         OnboardingStep3Activity.kt
         ProfileSetupActivity.kt            # local profile — no account (ADR-002/A-10)
       profile/                             # LocalProfile + LocalProfileStore (SharedPreferences)
-      journal/                             # stubs — setContentView is commented out
-        JournalOverviewActivity.kt
-        JournalEditorActivity.kt
+      data/                                # Room layer (A-1): JournalEntry, JournalEntryDao, AppDatabase
+      journal/
+        JournalEditorActivity.kt           # the core loop (A-1): prompt, text, mood, save
+        PromptProvider.kt                  # pure date rotation over the daily_prompts array
+        JournalOverviewActivity.kt         # stub — setContentView is commented out
       insights/InsightsActivity.kt         # has a layout, not yet in the manifest
       settings/SettingsActivity.kt         # stub
     res/
       layout/                              # one activity_*.xml per screen
-      values/                              # strings.xml, colors.xml, themes.xml
+      values/                              # strings.xml (incl. daily_prompts), colors.xml, themes.xml
+      xml/                                 # backup rules — the Room DB is excluded from backup
       raw/                                 # Lottie animation files
       drawable/, mipmap-*/                 # icons & vectors
+  src/test/                                # JVM tests (LocalProfileTest, PromptProviderTest)
+  src/androidTest/                         # instrumented tests (JournalEntryDaoTest, in-memory Room)
 gradle/libs.versions.toml                  # version catalog — add/bump deps HERE
 web/                                       # design prototype only, not maintained (ADR-003)
 docs/                                      # PRD, requirements, decisions, backlog (German)
@@ -68,7 +75,7 @@ its own package under `com.positiveparenting`.
 
 ## How the app flows today
 
-The only navigable path wired into `AndroidManifest.xml`:
+On first launch, the onboarding flow:
 
 ```
 OnboardingActivity (LAUNCHER)  →  OnboardingStep2Activity  →  OnboardingStep3Activity  →  ProfileSetupActivity
@@ -79,11 +86,17 @@ Each activity is a thin `AppCompatActivity`: it calls `setContentView(R.layout.�
 one button's `setOnClickListener` to `startActivity(Intent(...))` for the next screen. The
 final step stores a **local profile** (first name, optional child's name) in
 SharedPreferences and sets the `onboarding_complete` flag — no account, no backend
-(ADR-002); the launcher redirect that reads the flag arrives with A-1.
+(ADR-002).
 
-`journal/`, `insights/`, and `settings/` exist as classes but are **not** registered in the
-manifest and several have their `setContentView` commented out — they are placeholders for
-the journaling and insights features described in the PRD. Expect to flesh these out.
+Once that flag is set, every launch skips onboarding: `OnboardingActivity` redirects
+straight into **`JournalEditorActivity`** (A-1) — today's date and daily prompt (rotated
+by `PromptProvider` over the `daily_prompts` array), a multiline text field, an optional
+five-step mood row, and a save button that inserts a `JournalEntry` into the local Room
+database (`journal.db`). The DB is excluded from Android backup: no entry leaves the device.
+
+`JournalOverviewActivity`, `insights/`, and `settings/` exist as classes but are **not**
+registered in the manifest — placeholders for the features described in the PRD (A-2, A-7,
+A-6). Expect to flesh these out.
 
 ---
 
@@ -110,9 +123,9 @@ wrapper — never a globally installed `gradle`.
 The easiest path is to open the project root in **Android Studio**, let it sync Gradle, then
 Run the `app` configuration on an emulator (API 33+).
 
-> **Note:** JVM unit tests live under `app/src/test/` (first suite: `LocalProfileTest`).
-> There are no instrumented tests yet — put them under `app/src/androidTest/` (create that
-> dir; it doesn't exist yet).
+> **Note:** JVM unit tests live under `app/src/test/` (`LocalProfileTest`,
+> `PromptProviderTest`). Instrumented tests live under `app/src/androidTest/`
+> (`JournalEntryDaoTest` against an in-memory Room DB) and need a device/emulator.
 
 ---
 
@@ -164,7 +177,7 @@ back only with a refined [A-8](./anforderungen/README.md#übersicht).
 3. Skim [`PRD.md`](./PRD.md) — especially the **non-goals**, they are the part that
    constrains what you build.
 4. Read [`anforderungen/README.md`](./anforderungen/README.md) to see what is queued.
-   A-1 (write and store an entry) is the foundation everything else needs.
+   A-1 (write and store an entry) is done — A-2 (journal overview) builds directly on it.
 5. Pick up a stub (`JournalOverviewActivity` / `SettingsActivity`): give it a layout,
    register it in the manifest, and wire it into the flow. Non-trivial work goes through
    [`PROZESS.md`](./PROZESS.md) first.

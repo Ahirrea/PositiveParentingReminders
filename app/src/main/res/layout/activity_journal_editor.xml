@@ -1,18 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/animation_background"
+    android:fillViewport="true"
     tools:context=".journal.JournalEditorActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Journal Editor Screen"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="24dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/date_textview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Samstag, 1. August 2026" />
+
+        <TextView
+            android:id="@+id/prompt_textview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date_textview"
+            tools:text="Wann warst du heute stolz auf dich?" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/entry_text_input_layout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:hint="@string/journal_editor_text_hint"
+            android:textColorHint="@color/white"
+            app:boxStrokeColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/prompt_textview">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/entry_text_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine|textCapSentences"
+                android:minLines="5"
+                android:textColor="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/mood_label_textview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/journal_editor_mood_label"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/entry_text_input_layout" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/mood_toggle_group"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mood_label_textview"
+            app:selectionRequired="false"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mood_button_1"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/mood_button_background"
+                android:contentDescription="@string/mood_1_description"
+                android:minHeight="56dp"
+                android:text="@string/mood_1_emoji"
+                android:textSize="20sp"
+                app:icon="@drawable/mood_button_icon"
+                app:iconGravity="textEnd"
+                app:iconPadding="2dp"
+                app:iconSize="14dp"
+                app:iconTint="@color/white"
+                app:strokeColor="@color/white" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mood_button_2"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/mood_button_background"
+                android:contentDescription="@string/mood_2_description"
+                android:minHeight="56dp"
+                android:text="@string/mood_2_emoji"
+                android:textSize="20sp"
+                app:icon="@drawable/mood_button_icon"
+                app:iconGravity="textEnd"
+                app:iconPadding="2dp"
+                app:iconSize="14dp"
+                app:iconTint="@color/white"
+                app:strokeColor="@color/white" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mood_button_3"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/mood_button_background"
+                android:contentDescription="@string/mood_3_description"
+                android:minHeight="56dp"
+                android:text="@string/mood_3_emoji"
+                android:textSize="20sp"
+                app:icon="@drawable/mood_button_icon"
+                app:iconGravity="textEnd"
+                app:iconPadding="2dp"
+                app:iconSize="14dp"
+                app:iconTint="@color/white"
+                app:strokeColor="@color/white" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mood_button_4"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/mood_button_background"
+                android:contentDescription="@string/mood_4_description"
+                android:minHeight="56dp"
+                android:text="@string/mood_4_emoji"
+                android:textSize="20sp"
+                app:icon="@drawable/mood_button_icon"
+                app:iconGravity="textEnd"
+                app:iconPadding="2dp"
+                app:iconSize="14dp"
+                app:iconTint="@color/white"
+                app:strokeColor="@color/white" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mood_button_5"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/mood_button_background"
+                android:contentDescription="@string/mood_5_description"
+                android:minHeight="56dp"
+                android:text="@string/mood_5_emoji"
+                android:textSize="20sp"
+                app:icon="@drawable/mood_button_icon"
+                app:iconGravity="textEnd"
+                app:iconPadding="2dp"
+                app:iconSize="14dp"
+                app:iconTint="@color/white"
+                app:strokeColor="@color/white" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_entry_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:enabled="false"
+            android:padding="16dp"
+            android:text="@string/journal_editor_save_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mood_toggle_group"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

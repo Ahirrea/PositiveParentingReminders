@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -41,6 +42,11 @@ android {
     }
 }
 
+ksp {
+    // Schema-Historie einchecken: Migrationen statt Datenverlust (ADR-004).
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -49,6 +55,9 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation("com.airbnb.android:lottie:6.6.7")
     implementation(libs.material)
+    // Room 2.7+ enthält die früheren KTX-APIs (suspend-DAOs) direkt in room-runtime.
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
