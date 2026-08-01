@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Der Standard-Disabled-Zustand von MaterialButton ist auf dem dunklen
+     Petrol-Hintergrund fast unsichtbar — daher explizite Zustände. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/white" android:state_enabled="true" />
+    <item android:color="@color/save_button_disabled_background" />
+</selector>
