@@ -39,7 +39,7 @@ bauen A-2 (lesen), A-7 (Rückblick) und A-9 (Export) auf.
 | Nr. | Anforderung | Status | Worum es geht |
 |---|---|---|---|
 | A-1 | [Eintrag schreiben und speichern](./A-1-eintrag-schreiben-und-speichern.md) | 🏁 erledigt | Der Kern des Produkts: Tagesimpuls, Textfeld, Stimmung, Speichern — lokal in Room ([ADR-004](../entscheidungen/ADR-004-room-als-lokale-persistenz.md)). Bedient PRD „Kernschleife" Schritte 1–2. Umgesetzt 2026-08-01. |
-| A-2 | Journal-Übersicht | 💡 Idee | Liste der eigenen Einträge, chronologisch, zum Wiederlesen. `JournalOverviewActivity` ist ein Stub. Setzt A-1 voraus. |
+| A-2 | [Journal-Übersicht](./A-2-journal-uebersicht.md) | ✅ bereit | Liste der eigenen Einträge, neueste zuerst, zum Wiederlesen — nur lesen, bewusst ohne Auswertung (die bleibt A-7). Setzt A-1 voraus. |
 | A-3 | Ein Impuls pro Tag als Notification | 💡 Idee | „Einen einzigen Impuls pro Tag" ist die User Story, an der die ganze Gewohnheit hängt. Es existiert noch kein Notification-Code, und die Uhrzeit gehört konfigurierbar (→ A-6). |
 | A-4 | Stimmung erfassen | 🗑 verworfen | Aufgegangen in [A-1](./A-1-eintrag-schreiben-und-speichern.md) (Entscheidung vom 2026-07-31): die Stimmungsauswahl gehört von Anfang an in den Editor, sonst fehlen dem Rückblick später die Daten. |
 | A-5 | Einträge mit Themen versehen | 💡 Idee | „Streit ums Zubettgehen", „Geschwisterstreit" — die Voraussetzung dafür, wiederkehrende Situationen überhaupt zu erkennen. Offen: feste Themenliste oder freie Schlagworte. |
