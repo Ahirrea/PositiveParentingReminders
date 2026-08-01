@@ -36,10 +36,11 @@ Projekt nach einer Entscheidung aussehen, die nie getroffen wurde:
   Abhängigkeit in `app/build.gradle.kts`; alle anderen laufen über
   `gradle/libs.versions.toml`.
 - [ ] **Stub-Activities registrieren, sobald sie Inhalt haben.**
-  `JournalOverviewActivity`, `InsightsActivity`, `SettingsActivity` fehlen im
-  `AndroidManifest.xml` (`exported="false"`). Ein unregistrierter Screen ist
-  nicht erreichbar — das gehört in die Definition of Done jeder Anforderung,
-  die einen Screen baut. (`JournalEditorActivity` ist seit A-1 registriert.)
+  `InsightsActivity` und `SettingsActivity` fehlen im `AndroidManifest.xml`
+  (`exported="false"`). Ein unregistrierter Screen ist nicht erreichbar — das
+  gehört in die Definition of Done jeder Anforderung, die einen Screen baut.
+  (`JournalEditorActivity` ist seit A-1 registriert, `JournalOverviewActivity`
+  seit A-2.)
 
 - [x] **Edge-to-Edge und Disabled-Kontrast auf den Onboarding-Screens prüfen.**
   *Erledigt 2026-08-01:* alle Onboarding-Layouts und der Editor haben

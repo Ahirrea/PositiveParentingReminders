@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation("com.airbnb.android:lottie:6.6.7")
     implementation(libs.material)
+    // Explizit statt nur transitiv über Material: die Übersicht (A-2) nutzt RecyclerView direkt.
+    implementation(libs.androidx.recyclerview)
     // Room 2.7+ enthält die früheren KTX-APIs (suspend-DAOs) direkt in room-runtime.
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)

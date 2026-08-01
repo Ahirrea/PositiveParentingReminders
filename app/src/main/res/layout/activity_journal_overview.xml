@@ -4,12 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/animation_background"
+    android:fitsSystemWindows="true"
     tools:context=".journal.JournalOverviewActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/overview_title_textview"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Journal Overview Screen"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/journal_overview_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/entries_recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/overview_title_textview" />
+
+    <TextView
+        android:id="@+id/overview_empty_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:gravity="center"
+        android:text="@string/journal_overview_empty"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/white"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

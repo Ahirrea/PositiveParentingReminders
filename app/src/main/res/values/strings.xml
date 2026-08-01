@@ -4,7 +4,6 @@
     <string name="onboarding_welcome_title">Welcome to Positive Parenting Reminders.</string>
     <string name="onboarding_subtitle">A small private space just for you to take a breather and reflect on everyday parenting.</string>
     <string name="onboarding_button_text">Let\'s go</string>
-    <string name="title_journal_overview">Journal Overview</string>
     <string name="title_journal_editor">Journal Entry</string>
     <string name="title_insights">Insights</string>
     <string name="title_settings">Settings</string>
@@ -28,6 +27,12 @@
     <string name="journal_editor_save_button">Eintrag speichern</string>
     <string name="journal_editor_saved_message">Gespeichert</string>
     <string name="journal_editor_save_error">Speichern fehlgeschlagen. Dein Text bleibt erhalten – versuch es noch einmal.</string>
+    <string name="journal_editor_overview_button">Meine Einträge</string>
+
+    <!-- Journal-Übersicht (A-2): Einträge wiederlesen, neueste zuerst — auf Deutsch, wie alle neuen Texte -->
+    <string name="journal_overview_title">Meine Einträge</string>
+    <string name="journal_overview_empty">Noch keine Einträge. Dein erster wartet im Editor – ein paar Sätze genügen.</string>
+    <string name="journal_overview_load_error">Deine Einträge konnten nicht geladen werden. Versuch es noch einmal.</string>
 
     <string name="mood_1_emoji" translatable="false">😖</string>
     <string name="mood_2_emoji" translatable="false">😕</string>

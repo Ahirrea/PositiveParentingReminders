@@ -84,7 +84,7 @@ Known flake: the **first** build after a new Room schema version can fail in
 `app/schemas/` was written correctly — just rerun; don't debug the (valid) JSON.
 
 JVM tests live in `app/src/test/` (`LocalProfileTest` since A-10, `PromptProviderTest`
-since A-1). Instrumented tests live in `app/src/androidTest/` (`JournalEntryDaoTest`
+since A-1, `EntryDateFormatterTest` since A-2). Instrumented tests live in `app/src/androidTest/` (`JournalEntryDaoTest`
 against in-memory Room, since A-1) — they need a device/emulator, which Claude Code web
 sessions don't have; there, `assembleDebugAndroidTest` at least verifies they compile.
 
@@ -100,7 +100,8 @@ sessions don't have; there, `assembleDebugAndroidTest` at least verifies they co
 - View ids use `snake_case` (`lets_go_button`, `title_textview`).
 - One activity ↔ one `res/layout/activity_*.xml`, wired with `findViewById`.
 - **Every new screen must be registered** in `app/src/main/AndroidManifest.xml` (`exported="false"` unless it's
-  a launcher/deep-link target). Registered today: the onboarding flow and `JournalEditorActivity`.
+  a launcher/deep-link target). Registered today: the onboarding flow, `JournalEditorActivity` and
+  `JournalOverviewActivity`.
 - Kotlin official code style (`kotlin.code.style=official`).
 
 ## Code map (feature packages under `app/src/main/java/com/positiveparenting/`)
@@ -115,7 +116,9 @@ sessions don't have; there, `assembleDebugAndroidTest` at least verifies they co
 - `journal/` — `JournalEditorActivity`: **fully wired** (A-1: date + daily prompt,
   multiline text, optional 5-step mood, save to Room) + `PromptProvider` (pure,
   JVM-tested date rotation over the `daily_prompts` array).
-  `JournalOverviewActivity`: **stub** (`setContentView` commented out), not in the manifest.
+  `JournalOverviewActivity`: **fully wired** (A-2: all entries newest first as read-only
+  cards, RecyclerView + `JournalEntryAdapter`, reached via the editor's "Meine Einträge"
+  button) + `EntryDateFormatter` (pure, JVM-tested timestamp formatting).
 - `insights/InsightsActivity` — has a layout, not yet in the manifest.
 - `settings/SettingsActivity` — stub.
 

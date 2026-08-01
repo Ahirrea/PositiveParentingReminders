@@ -68,6 +68,23 @@ class JournalEntryDaoTest {
     }
 
     @Test
+    fun entriesNewestFirstSortsByTimestampThenInsertOrder() = runBlocking {
+        val oldest = dao.insert(JournalEntry(createdAtEpochMillis = 1L, text = "älter"))
+        val tieFirst = dao.insert(JournalEntry(createdAtEpochMillis = 5L, text = "gleicher Moment, zuerst"))
+        val tieSecond = dao.insert(JournalEntry(createdAtEpochMillis = 5L, text = "gleicher Moment, danach"))
+        val newest = dao.insert(JournalEntry(createdAtEpochMillis = 9L, text = "neuester"))
+
+        val entries = dao.entriesNewestFirst()
+
+        assertEquals(listOf(newest, tieSecond, tieFirst, oldest), entries.map { it.id })
+    }
+
+    @Test
+    fun entriesNewestFirstIsEmptyOnFreshDatabase() = runBlocking {
+        assertTrue(dao.entriesNewestFirst().isEmpty())
+    }
+
+    @Test
     fun multipleEntriesPerDayAreAllowed() = runBlocking {
         val first = dao.insert(JournalEntry(createdAtEpochMillis = 1L, text = "morgens"))
         val second = dao.insert(JournalEntry(createdAtEpochMillis = 2L, text = "abends"))

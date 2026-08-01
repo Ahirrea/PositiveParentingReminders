@@ -38,6 +38,10 @@
             android:exported="false"
             android:theme="@style/Theme.PositiveParentingReminders"
             android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name="com.positiveparenting.journal.JournalOverviewActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PositiveParentingReminders" />
     </application>
 
 </manifest>

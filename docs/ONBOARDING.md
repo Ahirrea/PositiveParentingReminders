@@ -40,7 +40,7 @@ app/
   build.gradle.kts                         # module build config, dependencies
   schemas/                                 # Room schema history (checked in — migrations, ADR-004)
   src/main/
-    AndroidManifest.xml                    # onboarding flow + JournalEditorActivity are registered
+    AndroidManifest.xml                    # onboarding flow + journal editor/overview are registered
     java/com/positiveparenting/
       onboarding/                          # runs once, then redirects into the editor
         OnboardingActivity.kt              # LAUNCHER entry point
@@ -52,7 +52,9 @@ app/
       journal/
         JournalEditorActivity.kt           # the core loop (A-1): prompt, text, mood, save
         PromptProvider.kt                  # pure date rotation over the daily_prompts array
-        JournalOverviewActivity.kt         # stub — setContentView is commented out
+        JournalOverviewActivity.kt         # overview (A-2): all entries newest first, read-only
+        JournalEntryAdapter.kt             # RecyclerView adapter for the overview cards
+        EntryDateFormatter.kt              # pure timestamp formatting for the list (JVM-tested)
       insights/InsightsActivity.kt         # has a layout, not yet in the manifest
       settings/SettingsActivity.kt         # stub
     res/
@@ -61,7 +63,7 @@ app/
       xml/                                 # backup rules — the Room DB is excluded from backup
       raw/                                 # Lottie animation files
       drawable/, mipmap-*/                 # icons & vectors
-  src/test/                                # JVM tests (LocalProfileTest, PromptProviderTest)
+  src/test/                                # JVM tests (LocalProfileTest, PromptProviderTest, EntryDateFormatterTest)
   src/androidTest/                         # instrumented tests (JournalEntryDaoTest, in-memory Room)
 gradle/libs.versions.toml                  # version catalog — add/bump deps HERE
 web/                                       # design prototype only, not maintained (ADR-003)
@@ -94,9 +96,12 @@ by `PromptProvider` over the `daily_prompts` array), a multiline text field, an 
 five-step mood row, and a save button that inserts a `JournalEntry` into the local Room
 database (`journal.db`). The DB is excluded from Android backup: no entry leaves the device.
 
-`JournalOverviewActivity`, `insights/`, and `settings/` exist as classes but are **not**
-registered in the manifest — placeholders for the features described in the PRD (A-2, A-7,
-A-6). Expect to flesh these out.
+From the editor, the text button **"Meine Einträge"** opens **`JournalOverviewActivity`**
+(A-2): all saved entries newest first as read-only cards (timestamp, mood emoji, the day's
+prompt, full text) — deliberately without any aggregation, which stays with A-7.
+
+`insights/` and `settings/` exist as classes but are **not** registered in the manifest —
+placeholders for the features described in the PRD (A-7, A-6). Expect to flesh these out.
 
 ---
 
@@ -177,7 +182,8 @@ back only with a refined [A-8](./anforderungen/README.md#übersicht).
 3. Skim [`PRD.md`](./PRD.md) — especially the **non-goals**, they are the part that
    constrains what you build.
 4. Read [`anforderungen/README.md`](./anforderungen/README.md) to see what is queued.
-   A-1 (write and store an entry) is done — A-2 (journal overview) builds directly on it.
-5. Pick up a stub (`JournalOverviewActivity` / `SettingsActivity`): give it a layout,
+   A-1 (write and store an entry) and A-2 (journal overview) are done — A-7 (review)
+   builds on them.
+5. Pick up a stub (`InsightsActivity` / `SettingsActivity`): give it a layout,
    register it in the manifest, and wire it into the flow. Non-trivial work goes through
    [`PROZESS.md`](./PROZESS.md) first.

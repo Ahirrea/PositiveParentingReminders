@@ -1,5 +1,6 @@
 package com.positiveparenting.journal
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
@@ -62,6 +63,12 @@ class JournalEditorActivity : AppCompatActivity() {
         }
 
         saveButton.setOnClickListener { saveEntry() }
+
+        // Entry into the overview (A-2); the editor stays open so back
+        // returns to the draft.
+        findViewById<MaterialButton>(R.id.journal_overview_button).setOnClickListener {
+            startActivity(Intent(this, JournalOverviewActivity::class.java))
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
