@@ -1,5 +1,6 @@
 package com.positiveparenting.onboarding
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.positiveparenting.R
+import com.positiveparenting.journal.JournalEditorActivity
 import com.positiveparenting.profile.LocalProfile
 import com.positiveparenting.profile.LocalProfileStore
 
@@ -62,6 +64,11 @@ class ProfileSetupActivity : AppCompatActivity() {
                 getString(R.string.profile_setup_saved_message, profile.parentName),
                 Toast.LENGTH_SHORT
             ).show()
+            // Onboarding is complete — continue straight into the core loop
+            // instead of requiring an app restart (the launcher gate from A-1
+            // only covers the next start).
+            startActivity(Intent(this, JournalEditorActivity::class.java))
+            finish()
         }
     }
 

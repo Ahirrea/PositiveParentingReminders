@@ -41,12 +41,14 @@ Projekt nach einer Entscheidung aussehen, die nie getroffen wurde:
   nicht erreichbar — das gehört in die Definition of Done jeder Anforderung,
   die einen Screen baut. (`JournalEditorActivity` ist seit A-1 registriert.)
 
-- [ ] **Edge-to-Edge und Disabled-Kontrast auf den Onboarding-Screens prüfen.**
-  Seit `targetSdk 35+` zeichnet Android erzwungen randlos; im Journal-Editor ist
-  das seit dem A-1-Nachbesserungs-Fix behoben (`fitsSystemWindows` + explizite
-  Farb-Zustände für den Speichern-Knopf, siehe `save_button_*.xml`). Die
-  Onboarding-Layouts (v. a. `activity_profile_setup.xml` mit Knopf am unteren
-  Rand und Default-Disabled-Farben auf dunklem Grund) haben dieselben Muster.
+- [x] **Edge-to-Edge und Disabled-Kontrast auf den Onboarding-Screens prüfen.**
+  *Erledigt 2026-08-01:* alle Onboarding-Layouts und der Editor haben
+  `fitsSystemWindows` (seit `targetSdk 35+` zeichnet Android erzwungen randlos);
+  Speichern-Knöpfe (Editor + Profil) nutzen explizite Farb-Zustände
+  (`save_button_*.xml`), Hints sind Weiß statt Theme-Lila. Außerdem: Mandala
+  loopt wieder, Herz (Step 2) pulsiert per `ObjectAnimator`, und „Profil
+  speichern" leitet direkt in den Editor weiter statt einen Neustart zu
+  verlangen.
 
 ## Niedrig
 
