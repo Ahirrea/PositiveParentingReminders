@@ -18,25 +18,27 @@ der Verfeinerung entsteht `A-<Nr>-<kurz-titel>.md` und die Zeile wird verlinkt.
 
 ## Ausgangslage
 
-Der einzige fertige Teil ist das **Onboarding** (`OnboardingActivity` →
-`OnboardingStep2Activity` → `OnboardingStep3Activity` → `ProfileSetupActivity`,
-vor A-10 `AccountCreationActivity`),
-und nur er ist im `AndroidManifest.xml` registriert. Alles andere ist Gerüst:
+Fertig sind das **Onboarding** (`OnboardingActivity` → `OnboardingStep2Activity` →
+`OnboardingStep3Activity` → `ProfileSetupActivity`, vor A-10
+`AccountCreationActivity`) und seit A-1 der **Journal-Editor**
+(`JournalEditorActivity` + Room-Datenschicht in `data/`) — nach abgeschlossenem
+Onboarding startet die App direkt im Editor. Der Rest ist Gerüst:
 
-- `journal/JournalOverviewActivity`, `journal/JournalEditorActivity` — Stubs, das
-  `setContentView` ist auskommentiert, nicht im Manifest.
+- `journal/JournalOverviewActivity` — Stub, das `setContentView` ist
+  auskommentiert, nicht im Manifest.
 - `insights/InsightsActivity` — hat ein Layout, ist nicht im Manifest.
 - `settings/SettingsActivity` — Stub.
-- **Keine Persistenz**, keine Datenbank, kein Notification-Code, kein KI-Code.
+- Kein Notification-Code, kein KI-Code.
 
-Die Liste unten ist damit weniger „Ausbau" als „der Kern fehlt noch". A-1 ist der
-Anfang: ohne gespeicherte Einträge hat keine andere Anforderung ein Fundament.
+Mit A-1 liegt das Fundament: Einträge werden lokal in Room gespeichert
+([ADR-004](../entscheidungen/ADR-004-room-als-lokale-persistenz.md)) — darauf
+bauen A-2 (lesen), A-7 (Rückblick) und A-9 (Export) auf.
 
 ## Übersicht
 
 | Nr. | Anforderung | Status | Worum es geht |
 |---|---|---|---|
-| A-1 | [Eintrag schreiben und speichern](./A-1-eintrag-schreiben-und-speichern.md) | ✅ bereit | Der Kern des Produkts: Tagesimpuls, Textfeld, Stimmung, Speichern — lokal in Room ([ADR-004](../entscheidungen/ADR-004-room-als-lokale-persistenz.md)). Bedient PRD „Kernschleife" Schritte 1–2. |
+| A-1 | [Eintrag schreiben und speichern](./A-1-eintrag-schreiben-und-speichern.md) | 🏁 erledigt | Der Kern des Produkts: Tagesimpuls, Textfeld, Stimmung, Speichern — lokal in Room ([ADR-004](../entscheidungen/ADR-004-room-als-lokale-persistenz.md)). Bedient PRD „Kernschleife" Schritte 1–2. Umgesetzt 2026-08-01. |
 | A-2 | Journal-Übersicht | 💡 Idee | Liste der eigenen Einträge, chronologisch, zum Wiederlesen. `JournalOverviewActivity` ist ein Stub. Setzt A-1 voraus. |
 | A-3 | Ein Impuls pro Tag als Notification | 💡 Idee | „Einen einzigen Impuls pro Tag" ist die User Story, an der die ganze Gewohnheit hängt. Es existiert noch kein Notification-Code, und die Uhrzeit gehört konfigurierbar (→ A-6). |
 | A-4 | Stimmung erfassen | 🗑 verworfen | Aufgegangen in [A-1](./A-1-eintrag-schreiben-und-speichern.md) (Entscheidung vom 2026-07-31): die Stimmungsauswahl gehört von Anfang an in den Editor, sonst fehlen dem Rückblick später die Daten. |

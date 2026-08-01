@@ -56,6 +56,10 @@ of change. **These documents are written in German**, unlike the code and this f
 - UI is **classic Android Views**: XML layouts + `ConstraintLayout` + `AppCompatActivity` + `findViewById`
   (ADR-001). Compose and View Binding are **off** (removed 2026-07-31 after being enabled-but-unused).
   There is **no AI code and no AI dependency** — Gemini was removed until A-8 is refined.
+- Persistence is **Room** (ADR-004, added with A-1) via the KSP plugin. The schema history
+  is checked in under `app/schemas/` — schema changes go through **migrations**, never
+  `fallbackToDestructiveMigration`. The database is excluded from Android backup
+  (`backup_rules.xml` / `data_extraction_rules.xml`): no entry ever leaves the device.
 - App id / namespace: `com.positiveparenting`.
 
 ## Build / lint / test
@@ -74,8 +78,10 @@ JUnit fetched from Maven Central (reachable by default).
 ./gradlew test                   # JVM unit tests
 ./gradlew connectedAndroidTest   # instrumented tests (needs device/emulator)
 ```
-JVM tests live in `app/src/test/` (first suite: `LocalProfileTest`, added with A-10).
-There is **no `app/src/androidTest/` yet** — create it when adding instrumented tests.
+JVM tests live in `app/src/test/` (`LocalProfileTest` since A-10, `PromptProviderTest`
+since A-1). Instrumented tests live in `app/src/androidTest/` (`JournalEntryDaoTest`
+against in-memory Room, since A-1) — they need a device/emulator, which Claude Code web
+sessions don't have; there, `assembleDebugAndroidTest` at least verifies they compile.
 
 ## Conventions
 - **Dependencies go through the version catalog** `gradle/libs.versions.toml`, referenced as `libs.…` in
@@ -89,17 +95,22 @@ There is **no `app/src/androidTest/` yet** — create it when adding instrumente
 - View ids use `snake_case` (`lets_go_button`, `title_textview`).
 - One activity ↔ one `res/layout/activity_*.xml`, wired with `findViewById`.
 - **Every new screen must be registered** in `app/src/main/AndroidManifest.xml` (`exported="false"` unless it's
-  a launcher/deep-link target). Only the onboarding flow is registered today.
+  a launcher/deep-link target). Registered today: the onboarding flow and `JournalEditorActivity`.
 - Kotlin official code style (`kotlin.code.style=official`).
 
 ## Code map (feature packages under `app/src/main/java/com/positiveparenting/`)
-- `onboarding/` — the only fully wired flow. Launcher is `OnboardingActivity` →
+- `onboarding/` — launcher flow, runs once: `OnboardingActivity` →
   `OnboardingStep2Activity` → `OnboardingStep3Activity` → `ProfileSetupActivity`
-  (local profile, ADR-002/A-10).
+  (local profile, ADR-002/A-10). Once `onboarding_complete` is set, the launcher
+  redirects straight into `JournalEditorActivity` (A-1).
 - `profile/` — `LocalProfile` (pure Kotlin, JVM-tested) + `LocalProfileStore`
   (SharedPreferences: names + `onboarding_complete` flag).
-- `journal/` — `JournalOverviewActivity`, `JournalEditorActivity`: **stubs** (`setContentView` commented out),
-  not in the manifest.
+- `data/` — Room layer (ADR-004): `JournalEntry` entity, `JournalEntryDao`,
+  `AppDatabase` singleton (`journal.db`, version 1).
+- `journal/` — `JournalEditorActivity`: **fully wired** (A-1: date + daily prompt,
+  multiline text, optional 5-step mood, save to Room) + `PromptProvider` (pure,
+  JVM-tested date rotation over the `daily_prompts` array).
+  `JournalOverviewActivity`: **stub** (`setContentView` commented out), not in the manifest.
 - `insights/InsightsActivity` — has a layout, not yet in the manifest.
 - `settings/SettingsActivity` — stub.
 

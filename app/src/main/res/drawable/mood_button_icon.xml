@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Auswahlzustand nicht nur über Farbe (A-1 Barrierefreiheit): der gewählte
+     Stimmungs-Knopf bekommt zusätzlich einen Haken. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_mood_check" android:state_checked="true" />
+    <item android:drawable="@android:color/transparent" />
+</selector>

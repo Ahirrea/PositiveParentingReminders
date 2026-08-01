@@ -21,4 +21,37 @@
     <string name="profile_setup_button_text">Profil speichern</string>
     <string name="profile_setup_privacy_caption">Kein Konto, keine Cloud: Dein Profil wird nur lokal auf diesem Gerät gespeichert.</string>
     <string name="profile_setup_saved_message">Hallo, %1$s! Dein Profil ist gespeichert.</string>
+
+    <!-- Journal-Editor (A-1): Impuls, Text, Stimmung, Speichern — auf Deutsch, wie alle neuen Texte -->
+    <string name="journal_editor_text_hint">Ein paar Sätze genügen …</string>
+    <string name="journal_editor_mood_label">Wie war dein Tag? (optional)</string>
+    <string name="journal_editor_save_button">Eintrag speichern</string>
+    <string name="journal_editor_saved_message">Gespeichert</string>
+    <string name="journal_editor_save_error">Speichern fehlgeschlagen. Dein Text bleibt erhalten – versuch es noch einmal.</string>
+
+    <string name="mood_1_emoji" translatable="false">😖</string>
+    <string name="mood_2_emoji" translatable="false">😕</string>
+    <string name="mood_3_emoji" translatable="false">😐</string>
+    <string name="mood_4_emoji" translatable="false">🙂</string>
+    <string name="mood_5_emoji" translatable="false">😄</string>
+    <string name="mood_1_description">Stimmung: sehr schwer</string>
+    <string name="mood_2_description">Stimmung: eher schwer</string>
+    <string name="mood_3_description">Stimmung: durchwachsen</string>
+    <string name="mood_4_description">Stimmung: gut</string>
+    <string name="mood_5_description">Stimmung: sehr gut</string>
+
+    <!-- Tagesimpulse (A-1): feste lokale Liste, Rotation nach Datum (PromptProvider).
+         Bewusst ohne KI (PRD-Nicht-Ziel); die Notification dazu ist A-3. -->
+    <string-array name="daily_prompts">
+        <item>Wann warst du heute stolz auf dich?</item>
+        <item>Welcher Moment mit deinem Kind hat dich heute zum Lächeln gebracht?</item>
+        <item>Was hat dich heute herausgefordert – und wie hast du reagiert?</item>
+        <item>Wann hast du deinem Kind heute wirklich zugehört?</item>
+        <item>Wofür bist du heute dankbar?</item>
+        <item>Wann hast du heute innegehalten, statt sofort zu reagieren?</item>
+        <item>Was würdest du rückblickend heute anders machen?</item>
+        <item>Welche kleine Sache lief heute besser als gestern?</item>
+        <item>Was hat dein Kind heute gesagt oder getan, das dich überrascht hat?</item>
+        <item>Welchen Moment von heute möchtest du dir merken?</item>
+    </string-array>
 </resources>

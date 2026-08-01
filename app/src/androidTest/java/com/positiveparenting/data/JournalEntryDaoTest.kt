@@ -1,0 +1,79 @@
+package com.positiveparenting.data
+
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.runBlocking
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+
+@RunWith(AndroidJUnit4::class)
+class JournalEntryDaoTest {
+
+    private lateinit var db: AppDatabase
+    private lateinit var dao: JournalEntryDao
+
+    @Before
+    fun createDb() {
+        db = Room.inMemoryDatabaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            AppDatabase::class.java,
+        ).build()
+        dao = db.journalEntryDao()
+    }
+
+    @After
+    fun closeDb() {
+        db.close()
+    }
+
+    @Test
+    fun insertPersistsAllFields() = runBlocking {
+        val id = dao.insert(
+            JournalEntry(
+                createdAtEpochMillis = 1_722_470_400_000L,
+                text = "Heute Abend ruhig geblieben.",
+                mood = 4,
+                prompt = "Wann warst du heute stolz auf dich?",
+            )
+        )
+
+        val stored = dao.findById(id)
+        assertNotNull(stored)
+        assertEquals(1_722_470_400_000L, stored?.createdAtEpochMillis)
+        assertEquals("Heute Abend ruhig geblieben.", stored?.text)
+        assertEquals(4, stored?.mood)
+        assertEquals("Wann warst du heute stolz auf dich?", stored?.prompt)
+    }
+
+    @Test
+    fun moodAndPromptAreNullable() = runBlocking {
+        val id = dao.insert(
+            JournalEntry(
+                createdAtEpochMillis = 1_722_470_400_000L,
+                text = "Nur Text, keine Stimmung.",
+            )
+        )
+
+        val stored = dao.findById(id)
+        assertNotNull(stored)
+        assertNull(stored?.mood)
+        assertNull(stored?.prompt)
+    }
+
+    @Test
+    fun multipleEntriesPerDayAreAllowed() = runBlocking {
+        val first = dao.insert(JournalEntry(createdAtEpochMillis = 1L, text = "morgens"))
+        val second = dao.insert(JournalEntry(createdAtEpochMillis = 2L, text = "abends"))
+
+        assertTrue(first != second)
+        assertNotNull(dao.findById(first))
+        assertNotNull(dao.findById(second))
+    }
+}

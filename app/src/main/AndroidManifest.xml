@@ -33,6 +33,11 @@
             android:name="com.positiveparenting.onboarding.ProfileSetupActivity"
             android:exported="false"
             android:theme="@style/Theme.PositiveParentingReminders" />
+        <activity
+            android:name="com.positiveparenting.journal.JournalEditorActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PositiveParentingReminders"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
     </application>
 
 </manifest>

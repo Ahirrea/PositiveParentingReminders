@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="animation_background">#133542</color>
+    <color name="mood_button_checked_background">#33FFFFFF</color>
 </resources>

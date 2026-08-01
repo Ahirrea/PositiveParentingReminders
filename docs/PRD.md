@@ -145,8 +145,8 @@ gestrichen, weil es keine Nutzerbasis gibt, an der man sie messen könnte:
 - **Sprache:** Der Code und die bisherigen Dokumente sind auf Englisch,
   die UI-Strings liegen in `res/values/strings.xml`. Neue Dokumentation in diesem
   Ordner ist auf Deutsch.
-- **Es gibt noch keine Tests** — weder `app/src/test/` noch `app/src/androidTest/`.
-  Nur die Standard-JUnit-/Espresso-Abhängigkeiten sind deklariert.
+- **Tests:** JVM-Tests in `app/src/test/` (seit A-10), Instrumented-Tests in
+  `app/src/androidTest/` (seit A-1, gegen In-Memory-Room).
 
 ### Risiken & Gegenmaßnahmen
 

@@ -27,18 +27,19 @@ Projekt nach einer Entscheidung aussehen, die nie getroffen wurde:
 
 ## Mittel — Grundlagen
 
-- [ ] **Test-Suite anlegen.** *Halb erledigt 2026-07-31:* `app/src/test/`
-  existiert seit [A-10](./anforderungen/A-10-lokales-profil.md)
-  (`LocalProfileTest`). `app/src/androidTest/` fehlt weiterhin und entsteht
-  sinnvollerweise mit A-1 (DAO-Test gegen In-Memory-Room).
+- [x] **Test-Suite anlegen.** *Erledigt 2026-08-01:* `app/src/test/` existiert
+  seit [A-10](./anforderungen/A-10-lokales-profil.md) (`LocalProfileTest`),
+  seit A-1 dazu `PromptProviderTest`; `app/src/androidTest/` existiert seit
+  [A-1](./anforderungen/A-1-eintrag-schreiben-und-speichern.md)
+  (`JournalEntryDaoTest` gegen In-Memory-Room).
 - [ ] **Lottie über den Version-Katalog ziehen.** Heute die einzige hartkodierte
   Abhängigkeit in `app/build.gradle.kts`; alle anderen laufen über
   `gradle/libs.versions.toml`.
 - [ ] **Stub-Activities registrieren, sobald sie Inhalt haben.**
-  `JournalOverviewActivity`, `JournalEditorActivity`, `InsightsActivity`,
-  `SettingsActivity` fehlen im `AndroidManifest.xml` (`exported="false"`). Ein
-  unregistrierter Screen ist nicht erreichbar — das gehört in die Definition of
-  Done jeder Anforderung, die einen Screen baut.
+  `JournalOverviewActivity`, `InsightsActivity`, `SettingsActivity` fehlen im
+  `AndroidManifest.xml` (`exported="false"`). Ein unregistrierter Screen ist
+  nicht erreichbar — das gehört in die Definition of Done jeder Anforderung,
+  die einen Screen baut. (`JournalEditorActivity` ist seit A-1 registriert.)
 
 ## Niedrig
 
