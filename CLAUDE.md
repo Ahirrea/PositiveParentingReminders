@@ -60,6 +60,7 @@ of change. **These documents are written in German**, unlike the code and this f
   is checked in under `app/schemas/` — schema changes go through **migrations**, never
   `fallbackToDestructiveMigration`. The database is excluded from Android backup
   (`backup_rules.xml` / `data_extraction_rules.xml`): no entry ever leaves the device.
+  Do **not** add `room-ktx` — its APIs (suspend DAOs) live in `room-runtime` since Room 2.7.
 - App id / namespace: `com.positiveparenting`.
 
 ## Build / lint / test
@@ -78,6 +79,10 @@ JUnit fetched from Maven Central (reachable by default).
 ./gradlew test                   # JVM unit tests
 ./gradlew connectedAndroidTest   # instrumented tests (needs device/emulator)
 ```
+Known flake: the **first** build after a new Room schema version can fail in
+`kspDebugKotlin` with `JsonDecodingException … 'EOF'` even though the schema JSON under
+`app/schemas/` was written correctly — just rerun; don't debug the (valid) JSON.
+
 JVM tests live in `app/src/test/` (`LocalProfileTest` since A-10, `PromptProviderTest`
 since A-1). Instrumented tests live in `app/src/androidTest/` (`JournalEntryDaoTest`
 against in-memory Room, since A-1) — they need a device/emulator, which Claude Code web
