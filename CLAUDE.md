@@ -79,7 +79,9 @@ There are **no real tests yet** — only the default JUnit/Espresso deps, and no
 
 ## Conventions
 - **Dependencies go through the version catalog** `gradle/libs.versions.toml`, referenced as `libs.…` in
-  `app/build.gradle.kts`. (Lottie is the one hardcoded exception today.)
+  **both** the root `build.gradle.kts` (plugin aliases) and `app/build.gradle.kts`. When removing a catalog
+  entry, grep for its `libs.…` references first — a stale `kotlin.compose` alias in the root file once broke
+  every Gradle invocation. (Lottie is the one hardcoded exception today.)
 - User-facing text → `app/src/main/res/values/strings.xml`; colors → `colors.xml`. No hardcoded UI strings.
 - UI-string language is mixed by design: the journal editor and `daily_prompts` are
   **German** (per the A-1 spec — the target user writes German); the onboarding flow
