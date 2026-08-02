@@ -33,6 +33,11 @@ of change. **These documents are written in German**, unlike the code and this f
   a row in `docs/anforderungen/README.md` (status lives **only** there).
   **Implementation only on explicit green light.** The `/anforderung` slash command
   runs the process.
+- A direct implementation order for a still-unrefined requirement ("Setze A-n um")
+  counts as the green light, but does not skip the process: write the refinement
+  file first (own commit, as with A-2/A-3), settle open questions with reasoned,
+  revisable defaults, and note the direct order in the file so later readers know
+  the decisions were defaults, not product-owner choices.
 - Small fixes and technical chores go straight into `docs/BACKLOG.md`; the dividing
   line is in the process file ("Anforderung oder Aufgabe? Der Test").
 - Architectural decisions become an ADR in `docs/entscheidungen/`. That folder is
