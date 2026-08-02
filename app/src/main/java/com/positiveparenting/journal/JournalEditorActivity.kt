@@ -1,9 +1,12 @@
 package com.positiveparenting.journal
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +16,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.positiveparenting.R
 import com.positiveparenting.data.AppDatabase
 import com.positiveparenting.data.JournalEntry
+import com.positiveparenting.reminder.ReminderScheduler
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -30,6 +34,12 @@ class JournalEditorActivity : AppCompatActivity() {
     private lateinit var moodToggleGroup: MaterialButtonToggleGroup
     private lateinit var saveButton: MaterialButton
     private lateinit var prompt: String
+
+    // A denial is respected either way: the alarm stays armed, Android just
+    // never shows the notification until the permission is granted in the
+    // system settings (comfortable re-enabling comes with A-6).
+    private val notificationPermissionRequest =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +79,22 @@ class JournalEditorActivity : AppCompatActivity() {
         findViewById<MaterialButton>(R.id.journal_overview_button).setOnClickListener {
             startActivity(Intent(this, JournalOverviewActivity::class.java))
         }
+
+        // A-3: arm the daily reminder on every launch (idempotent — the
+        // PendingIntent identity replaces the previous alarm) and ask for
+        // the notification permission exactly once.
+        ReminderScheduler.schedule(this)
+        maybeRequestNotificationPermission()
+    }
+
+    private fun maybeRequestNotificationPermission() {
+        if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+            == PackageManager.PERMISSION_GRANTED
+        ) return
+        val prefs = getSharedPreferences(REMINDER_PREFS, MODE_PRIVATE)
+        if (prefs.getBoolean(KEY_PERMISSION_REQUESTED, false)) return
+        prefs.edit().putBoolean(KEY_PERMISSION_REQUESTED, true).apply()
+        notificationPermissionRequest.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -132,5 +158,7 @@ class JournalEditorActivity : AppCompatActivity() {
     companion object {
         private const val STATE_PROMPT = "state_prompt"
         private const val STATE_MOOD = "state_mood"
+        private const val REMINDER_PREFS = "reminder_prefs"
+        private const val KEY_PERMISSION_REQUESTED = "notification_permission_requested"
     }
 }

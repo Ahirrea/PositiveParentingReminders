@@ -85,6 +85,21 @@ class JournalEntryDaoTest {
     }
 
     @Test
+    fun countSinceCountsOnlyEntriesAtOrAfterThreshold() = runBlocking {
+        dao.insert(JournalEntry(createdAtEpochMillis = 10L, text = "gestern"))
+        dao.insert(JournalEntry(createdAtEpochMillis = 100L, text = "heute früh"))
+        dao.insert(JournalEntry(createdAtEpochMillis = 200L, text = "heute Abend"))
+
+        assertEquals(2, dao.countSinceBlocking(100L))
+        assertEquals(0, dao.countSinceBlocking(201L))
+    }
+
+    @Test
+    fun countSinceIsZeroOnFreshDatabase() = runBlocking {
+        assertEquals(0, dao.countSinceBlocking(0L))
+    }
+
+    @Test
     fun multipleEntriesPerDayAreAllowed() = runBlocking {
         val first = dao.insert(JournalEntry(createdAtEpochMillis = 1L, text = "morgens"))
         val second = dao.insert(JournalEntry(createdAtEpochMillis = 2L, text = "abends"))

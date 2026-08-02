@@ -34,6 +34,13 @@
     <string name="journal_overview_empty">Noch keine Einträge. Dein erster wartet im Editor – ein paar Sätze genügen.</string>
     <string name="journal_overview_load_error">Deine Einträge konnten nicht geladen werden. Versuch es noch einmal.</string>
 
+    <!-- Täglicher Impuls als Notification (A-3): rein lokal, feste Zeit 20:00 bis A-6.
+         Bewusst generisch — die Notification ist auf dem Sperrbildschirm sichtbar,
+         Eintragsinhalte und Namen gehören da nie hinein. -->
+    <string name="reminder_channel_name">Täglicher Impuls</string>
+    <string name="reminder_channel_description">Erinnert dich einmal am Abend mit dem Tagesimpuls ans Schreiben.</string>
+    <string name="reminder_notification_title">Dein Impuls für heute</string>
+
     <string name="mood_1_emoji" translatable="false">😖</string>
     <string name="mood_2_emoji" translatable="false">😕</string>
     <string name="mood_3_emoji" translatable="false">😐</string>

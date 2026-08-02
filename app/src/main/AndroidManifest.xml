@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- A-3: rein lokale Tages-Erinnerung — Runtime-Abfrage im Editor bzw.
+         Re-Planung des Alarms nach einem Neustart. Keine Netzwerk-Berechtigung. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -42,6 +47,22 @@
             android:name="com.positiveparenting.journal.JournalOverviewActivity"
             android:exported="false"
             android:theme="@style/Theme.PositiveParentingReminders" />
+
+        <!-- Täglicher Impuls (A-3): Alarm-Empfänger + Re-Planung nach
+             Neustart/Zeitänderung (geschützte System-Broadcasts, daher
+             exported="false"). -->
+        <receiver
+            android:name="com.positiveparenting.reminder.DailyReminderReceiver"
+            android:exported="false" />
+        <receiver
+            android:name="com.positiveparenting.reminder.ReminderRescheduleReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

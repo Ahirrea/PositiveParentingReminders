@@ -20,4 +20,13 @@ interface JournalEntryDao {
      */
     @Query("SELECT * FROM journal_entries ORDER BY createdAtEpochMillis DESC, id DESC")
     suspend fun entriesNewestFirst(): List<JournalEntry>
+
+    /**
+     * Number of entries created at or after [epochMillis] — the reminder's
+     * skip rule (A-3: no notification when today already has an entry).
+     * Non-suspend on purpose: the receiver calls it from a plain worker
+     * thread without a coroutine scope.
+     */
+    @Query("SELECT COUNT(*) FROM journal_entries WHERE createdAtEpochMillis >= :epochMillis")
+    fun countSinceBlocking(epochMillis: Long): Int
 }

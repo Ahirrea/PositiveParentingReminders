@@ -55,6 +55,11 @@ app/
         JournalOverviewActivity.kt         # overview (A-2): all entries newest first, read-only
         JournalEntryAdapter.kt             # RecyclerView adapter for the overview cards
         EntryDateFormatter.kt              # pure timestamp formatting for the list (JVM-tested)
+      reminder/                            # daily reminder (A-3): local notification at 20:00
+        ReminderTimeCalculator.kt          # pure next-trigger logic (JVM-tested)
+        ReminderScheduler.kt               # idempotent AlarmManager arming (inexact, daily)
+        DailyReminderReceiver.kt           # shows the day's prompt; skips if today has an entry
+        ReminderRescheduleReceiver.kt      # re-arms after reboot / time change
       insights/InsightsActivity.kt         # has a layout, not yet in the manifest
       settings/SettingsActivity.kt         # stub
     res/
@@ -63,7 +68,7 @@ app/
       xml/                                 # backup rules — the Room DB is excluded from backup
       raw/                                 # Lottie animation files
       drawable/, mipmap-*/                 # icons & vectors
-  src/test/                                # JVM tests (LocalProfileTest, PromptProviderTest, EntryDateFormatterTest)
+  src/test/                                # JVM tests (LocalProfileTest, PromptProviderTest, EntryDateFormatterTest, ReminderTimeCalculatorTest)
   src/androidTest/                         # instrumented tests (JournalEntryDaoTest, in-memory Room)
 gradle/libs.versions.toml                  # version catalog — add/bump deps HERE
 web/                                       # design prototype only, not maintained (ADR-003)
@@ -100,6 +105,13 @@ From the editor, the text button **"Meine Einträge"** opens **`JournalOverviewA
 (A-2): all saved entries newest first as read-only cards (timestamp, mood emoji, the day's
 prompt, full text) — deliberately without any aggregation, which stays with A-7.
 
+Since A-3 the app also sends **one local notification per day** around 20:00 with the
+day's prompt (`reminder/` package): an inexact repeating `AlarmManager` alarm — no push
+service, no WorkManager, no exact-alarm permission. Tapping it opens the editor; if an
+entry for today already exists, the reminder is skipped. The `POST_NOTIFICATIONS`
+permission is requested exactly once on the first editor launch, and a denial leaves the
+app fully functional. The 20:00 default becomes configurable with A-6.
+
 `insights/` and `settings/` exist as classes but are **not** registered in the manifest —
 placeholders for the features described in the PRD (A-7, A-6). Expect to flesh these out.
 
@@ -129,8 +141,9 @@ The easiest path is to open the project root in **Android Studio**, let it sync 
 Run the `app` configuration on an emulator (API 33+).
 
 > **Note:** JVM unit tests live under `app/src/test/` (`LocalProfileTest`,
-> `PromptProviderTest`). Instrumented tests live under `app/src/androidTest/`
-> (`JournalEntryDaoTest` against an in-memory Room DB) and need a device/emulator.
+> `PromptProviderTest`, `EntryDateFormatterTest`, `ReminderTimeCalculatorTest`).
+> Instrumented tests live under `app/src/androidTest/` (`JournalEntryDaoTest` against
+> an in-memory Room DB) and need a device/emulator.
 
 ---
 

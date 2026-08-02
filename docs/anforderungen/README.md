@@ -24,11 +24,13 @@ Fertig sind das **Onboarding** (`OnboardingActivity` → `OnboardingStep2Activit
 (`JournalEditorActivity` + Room-Datenschicht in `data/`) — nach abgeschlossenem
 Onboarding startet die App direkt im Editor — und seit A-2 die
 **Journal-Übersicht** (`JournalOverviewActivity`, aus dem Editor erreichbar).
+Seit A-3 erinnert eine **lokale tägliche Notification** um 20:00 an den
+Tagesimpuls (`reminder/`, AlarmManager — kein Push-Dienst).
 Der Rest ist Gerüst:
 
 - `insights/InsightsActivity` — hat ein Layout, ist nicht im Manifest.
 - `settings/SettingsActivity` — Stub.
-- Kein Notification-Code, kein KI-Code.
+- Kein KI-Code.
 
 Mit A-1 liegt das Fundament: Einträge werden lokal in Room gespeichert
 ([ADR-004](../entscheidungen/ADR-004-room-als-lokale-persistenz.md)) — darauf
@@ -40,7 +42,7 @@ bauen A-2 (lesen, erledigt), A-7 (Rückblick) und A-9 (Export) auf.
 |---|---|---|---|
 | A-1 | [Eintrag schreiben und speichern](./A-1-eintrag-schreiben-und-speichern.md) | 🏁 erledigt | Der Kern des Produkts: Tagesimpuls, Textfeld, Stimmung, Speichern — lokal in Room ([ADR-004](../entscheidungen/ADR-004-room-als-lokale-persistenz.md)). Bedient PRD „Kernschleife" Schritte 1–2. Umgesetzt 2026-08-01. |
 | A-2 | [Journal-Übersicht](./A-2-journal-uebersicht.md) | 🏁 erledigt | Liste der eigenen Einträge, neueste zuerst, zum Wiederlesen — nur lesen, bewusst ohne Auswertung (die bleibt A-7). Setzt A-1 voraus. Umgesetzt 2026-08-01. |
-| A-3 | [Ein Impuls pro Tag als Notification](./A-3-impuls-notification.md) | ✅ bereit | „Einen einzigen Impuls pro Tag" ist die User Story, an der die ganze Gewohnheit hängt: lokale Notification um 20:00 (AlarmManager, inexakt), Tap öffnet den Editor, wer schon geschrieben hat, wird nicht erinnert. Uhrzeit konfigurierbar → A-6. |
+| A-3 | [Ein Impuls pro Tag als Notification](./A-3-impuls-notification.md) | 🏁 erledigt | „Einen einzigen Impuls pro Tag" ist die User Story, an der die ganze Gewohnheit hängt: lokale Notification um 20:00 (AlarmManager, inexakt), Tap öffnet den Editor, wer schon geschrieben hat, wird nicht erinnert. Uhrzeit konfigurierbar → A-6. Umgesetzt 2026-08-02. |
 | A-4 | Stimmung erfassen | 🗑 verworfen | Aufgegangen in [A-1](./A-1-eintrag-schreiben-und-speichern.md) (Entscheidung vom 2026-07-31): die Stimmungsauswahl gehört von Anfang an in den Editor, sonst fehlen dem Rückblick später die Daten. |
 | A-5 | Einträge mit Themen versehen | 💡 Idee | „Streit ums Zubettgehen", „Geschwisterstreit" — die Voraussetzung dafür, wiederkehrende Situationen überhaupt zu erkennen. Offen: feste Themenliste oder freie Schlagworte. |
 | A-6 | Einstellungen | 💡 Idee | Erinnerungszeit, Name, Datenexport/-löschung. `SettingsActivity` ist ein Stub. |
