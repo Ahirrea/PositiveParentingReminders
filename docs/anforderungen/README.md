@@ -25,7 +25,9 @@ Fertig sind das **Onboarding** (`OnboardingActivity` → `OnboardingStep2Activit
 Onboarding startet die App direkt im Editor — und seit A-2 die
 **Journal-Übersicht** (`JournalOverviewActivity`, aus dem Editor erreichbar).
 Seit A-3 erinnert eine **lokale tägliche Notification** um 20:00 an den
-Tagesimpuls (`reminder/`, AlarmManager — kein Push-Dienst).
+Tagesimpuls (`reminder/`, AlarmManager — kein Push-Dienst). Seit A-5 trägt ein
+Eintrag optional ein **Thema** aus einer festen Achter-Liste (`ThemeCatalog`),
+das sich in der Übersicht auch nachtragen lässt.
 Der Rest ist Gerüst:
 
 - `insights/InsightsActivity` — hat ein Layout, ist nicht im Manifest.
@@ -34,9 +36,10 @@ Der Rest ist Gerüst:
 
 Mit A-1 liegt das Fundament: Einträge werden lokal in Room gespeichert
 ([ADR-004](../entscheidungen/ADR-004-room-als-lokale-persistenz.md)) — darauf
-bauen A-2 (lesen, erledigt), [A-5](./A-5-themen.md) (Themen, bereit),
-A-7 (Rückblick) und A-9 (Export) auf. Das Datenbankschema steht bei Version 1;
-A-5 bringt die erste Migration.
+bauen A-2 (lesen, erledigt), [A-5](./A-5-themen.md) (Themen, erledigt),
+A-7 (Rückblick) und A-9 (Export) auf. Das Datenbankschema steht seit A-5 bei
+**Version 2**; `AppDatabase.MIGRATION_1_2` ist die erste Migration und der
+Bauplan für alle weiteren.
 
 ## Übersicht
 
@@ -46,7 +49,7 @@ A-5 bringt die erste Migration.
 | A-2 | [Journal-Übersicht](./A-2-journal-uebersicht.md) | 🏁 erledigt | Liste der eigenen Einträge, neueste zuerst, zum Wiederlesen — nur lesen, bewusst ohne Auswertung (die bleibt A-7). Setzt A-1 voraus. Umgesetzt 2026-08-01. |
 | A-3 | [Ein Impuls pro Tag als Notification](./A-3-impuls-notification.md) | 🏁 erledigt | „Einen einzigen Impuls pro Tag" ist die User Story, an der die ganze Gewohnheit hängt: lokale Notification um 20:00 (AlarmManager, inexakt), Tap öffnet den Editor, wer schon geschrieben hat, wird nicht erinnert. Uhrzeit konfigurierbar → A-6. Umgesetzt 2026-08-02. |
 | A-4 | Stimmung erfassen | 🗑 verworfen | Aufgegangen in [A-1](./A-1-eintrag-schreiben-und-speichern.md) (Entscheidung vom 2026-07-31): die Stimmungsauswahl gehört von Anfang an in den Editor, sonst fehlen dem Rückblick später die Daten. |
-| A-5 | [Einträge mit Themen versehen](./A-5-themen.md) | ✅ bereit | „Streit ums Zubettgehen", „Geschwisterstreit" — die Voraussetzung dafür, wiederkehrende Situationen überhaupt zu erkennen, und deshalb **vor A-7** fällig: Themen lassen sich nicht rückwirkend erzeugen. Entschieden am 2026-08-07: feste Liste mit acht Themen, ein optionales Thema pro Eintrag, in der Übersicht nachtragbar. Erste Room-Migration (Schema 2). |
+| A-5 | [Einträge mit Themen versehen](./A-5-themen.md) | 🏁 erledigt | „Streit ums Zubettgehen", „Geschwisterstreit" — die Voraussetzung dafür, wiederkehrende Situationen überhaupt zu erkennen, und deshalb **vor A-7** fällig: Themen lassen sich nicht rückwirkend erzeugen. Entschieden am 2026-08-07: feste Liste mit acht Themen, ein optionales Thema pro Eintrag, in der Übersicht nachtragbar. Erste Room-Migration (Schema 2). Umgesetzt 2026-08-07. |
 | A-6 | Einstellungen | 💡 Idee | Erinnerungszeit, Name, Datenexport/-löschung. `SettingsActivity` ist ein Stub. |
 | A-7 | Rückblick über Wochen und Monate | 💡 Idee | Der eigentliche Nutzen des Produkts (PRD „Kernschleife" Schritt 3). `InsightsActivity` hat ein Layout, aber keine Registrierung und keine Daten. Zunächst **regelbasiert** über die eigenen Einträge — bewusst ohne KI. |
 | A-8 | KI-gestützte Insights | 💡 Idee | Die Gemini-Abhängigkeit ist deklariert, aber ungenutzt. Laut PRD-Nicht-Ziel **erst nach** einem funktionierenden Journal-Kern; braucht außerdem eine Feedback-Schleife („war das hilfreich?"), sonst erodiert Vertrauen. |

@@ -29,4 +29,13 @@ interface JournalEntryDao {
      */
     @Query("SELECT COUNT(*) FROM journal_entries WHERE createdAtEpochMillis >= :epochMillis")
     fun countSinceBlocking(epochMillis: Long): Int
+
+    /**
+     * Adds, changes or removes (null) the theme of an existing entry (A-5).
+     * Deliberately a targeted query instead of `@Update`: the overview may
+     * only touch the theme — text, mood, prompt and timestamp of a written
+     * entry stay immutable.
+     */
+    @Query("UPDATE journal_entries SET theme = :theme WHERE id = :id")
+    suspend fun updateTheme(id: Long, theme: String?)
 }

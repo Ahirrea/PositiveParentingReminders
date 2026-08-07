@@ -49,10 +49,12 @@ app/
         ProfileSetupActivity.kt            # local profile — no account (ADR-002/A-10)
       profile/                             # LocalProfile + LocalProfileStore (SharedPreferences)
       data/                                # Room layer (A-1): JournalEntry, JournalEntryDao, AppDatabase
+                                           #   schema version 2 since A-5 (MIGRATION_1_2: theme column)
       journal/
-        JournalEditorActivity.kt           # the core loop (A-1): prompt, text, mood, save
+        JournalEditorActivity.kt           # the core loop (A-1): prompt, text, mood, save; theme chips (A-5)
         PromptProvider.kt                  # pure date rotation over the daily_prompts array
-        JournalOverviewActivity.kt         # overview (A-2): all entries newest first, read-only
+        ThemeCatalog.kt                    # pure stable theme keys (A-5), paired with theme_labels
+        JournalOverviewActivity.kt         # overview (A-2): all entries newest first; theme editable (A-5)
         JournalEntryAdapter.kt             # RecyclerView adapter for the overview cards
         EntryDateFormatter.kt              # pure timestamp formatting for the list (JVM-tested)
       reminder/                            # daily reminder (A-3): local notification at 20:00
@@ -68,8 +70,8 @@ app/
       xml/                                 # backup rules — the Room DB is excluded from backup
       raw/                                 # Lottie animation files
       drawable/, mipmap-*/                 # icons & vectors
-  src/test/                                # JVM tests (LocalProfileTest, PromptProviderTest, EntryDateFormatterTest, ReminderTimeCalculatorTest)
-  src/androidTest/                         # instrumented tests (JournalEntryDaoTest, in-memory Room)
+  src/test/                                # JVM tests (LocalProfileTest, PromptProviderTest, EntryDateFormatterTest, ReminderTimeCalculatorTest, ThemeCatalogTest)
+  src/androidTest/                         # instrumented tests (JournalEntryDaoTest in-memory, AppDatabaseMigrationTest, ThemeLabelsTest)
 gradle/libs.versions.toml                  # version catalog — add/bump deps HERE
 web/                                       # design prototype only, not maintained (ADR-003)
 docs/                                      # PRD, requirements, decisions, backlog (German)
@@ -98,12 +100,20 @@ SharedPreferences and sets the `onboarding_complete` flag — no account, no bac
 Once that flag is set, every launch skips onboarding: `OnboardingActivity` redirects
 straight into **`JournalEditorActivity`** (A-1) — today's date and daily prompt (rotated
 by `PromptProvider` over the `daily_prompts` array), a multiline text field, an optional
-five-step mood row, and a save button that inserts a `JournalEntry` into the local Room
-database (`journal.db`). The DB is excluded from Android backup: no entry leaves the device.
+five-step mood row, an optional **theme** chosen from eight chips (A-5), and a save button
+that inserts a `JournalEntry` into the local Room database (`journal.db`). The DB is
+excluded from Android backup: no entry leaves the device.
+
+Themes are stored as **stable English keys** (`bedtime`, `siblings`, …) from `ThemeCatalog`,
+never as their German label — the labels live index-parallel in the `theme_labels` array so
+the wording can change without orphaning saved entries.
 
 From the editor, the text button **"Meine Einträge"** opens **`JournalOverviewActivity`**
-(A-2): all saved entries newest first as read-only cards (timestamp, mood emoji, the day's
+(A-2): all saved entries newest first as cards (timestamp, mood emoji, theme, the day's
 prompt, full text) — deliberately without any aggregation, which stays with A-7.
+The cards are read-only with one deliberate exception since A-5: tapping a card opens a
+dialog that adds, changes or clears its **theme**, so entries written before A-5 are not a
+permanent gap in the first review. Text, mood, prompt and timestamp stay immutable.
 
 Since A-3 the app also sends **one local notification per day** around 20:00 with the
 day's prompt (`reminder/` package): an inexact repeating `AlarmManager` alarm — no push
@@ -141,9 +151,10 @@ The easiest path is to open the project root in **Android Studio**, let it sync 
 Run the `app` configuration on an emulator (API 33+).
 
 > **Note:** JVM unit tests live under `app/src/test/` (`LocalProfileTest`,
-> `PromptProviderTest`, `EntryDateFormatterTest`, `ReminderTimeCalculatorTest`).
-> Instrumented tests live under `app/src/androidTest/` (`JournalEntryDaoTest` against
-> an in-memory Room DB) and need a device/emulator.
+> `PromptProviderTest`, `EntryDateFormatterTest`, `ReminderTimeCalculatorTest`,
+> `ThemeCatalogTest`). Instrumented tests live under `app/src/androidTest/`
+> (`JournalEntryDaoTest` against an in-memory Room DB, `AppDatabaseMigrationTest` for the
+> 1 → 2 migration, `ThemeLabelsTest`) and need a device/emulator.
 
 ---
 
@@ -195,8 +206,8 @@ back only with a refined [A-8](./anforderungen/README.md#übersicht).
 3. Skim [`PRD.md`](./PRD.md) — especially the **non-goals**, they are the part that
    constrains what you build.
 4. Read [`anforderungen/README.md`](./anforderungen/README.md) to see what is queued.
-   A-1 (write and store an entry) and A-2 (journal overview) are done — A-7 (review)
-   builds on them.
+   A-1 (write and store an entry), A-2 (journal overview), A-3 (daily reminder) and A-5
+   (themes) are done — A-7 (review) builds on them.
 5. Pick up a stub (`InsightsActivity` / `SettingsActivity`): give it a layout,
    register it in the manifest, and wire it into the flow. Non-trivial work goes through
    [`PROZESS.md`](./PROZESS.md) first.

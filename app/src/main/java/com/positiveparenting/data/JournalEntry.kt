@@ -17,4 +17,10 @@ data class JournalEntry(
     val mood: Int? = null,
     /** The daily prompt shown while writing, so the review (A-7) knows what was answered. */
     val prompt: String? = null,
+    /**
+     * Theme of the entry (A-5); null = none given, it is optional. Holds the
+     * stable key from `ThemeCatalog`, never the German label — labels may be
+     * reworded without devaluing the history.
+     */
+    val theme: String? = null,
 )

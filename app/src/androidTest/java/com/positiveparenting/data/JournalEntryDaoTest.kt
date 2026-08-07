@@ -100,6 +100,68 @@ class JournalEntryDaoTest {
     }
 
     @Test
+    fun themeIsStoredAndNullableLikeMood() = runBlocking {
+        val withTheme = dao.insert(
+            JournalEntry(
+                createdAtEpochMillis = 1L,
+                text = "Zubettgehen war schwierig.",
+                theme = "bedtime",
+            )
+        )
+        val withoutTheme = dao.insert(
+            JournalEntry(createdAtEpochMillis = 2L, text = "Kein Thema angegeben."),
+        )
+
+        assertEquals("bedtime", dao.findById(withTheme)?.theme)
+        assertNull(dao.findById(withoutTheme)?.theme)
+    }
+
+    @Test
+    fun updateThemeSetsChangesAndClearsTheTheme() = runBlocking {
+        val id = dao.insert(
+            JournalEntry(createdAtEpochMillis = 1L, text = "Erst ohne Thema."),
+        )
+
+        dao.updateTheme(id, "bedtime")
+        assertEquals("bedtime", dao.findById(id)?.theme)
+
+        dao.updateTheme(id, "siblings")
+        assertEquals("siblings", dao.findById(id)?.theme)
+
+        dao.updateTheme(id, null)
+        assertNull(dao.findById(id)?.theme)
+    }
+
+    @Test
+    fun updateThemeLeavesEveryOtherFieldUntouched() = runBlocking {
+        val id = dao.insert(
+            JournalEntry(
+                createdAtEpochMillis = 1_722_470_400_000L,
+                text = "Heute Abend ruhig geblieben.",
+                mood = 4,
+                prompt = "Wann warst du heute stolz auf dich?",
+            )
+        )
+
+        dao.updateTheme(id, "anger")
+
+        val stored = dao.findById(id)
+        assertEquals(1_722_470_400_000L, stored?.createdAtEpochMillis)
+        assertEquals("Heute Abend ruhig geblieben.", stored?.text)
+        assertEquals(4, stored?.mood)
+        assertEquals("Wann warst du heute stolz auf dich?", stored?.prompt)
+    }
+
+    @Test
+    fun updateThemeOnUnknownIdChangesNothing() = runBlocking {
+        val id = dao.insert(JournalEntry(createdAtEpochMillis = 1L, text = "bleibt"))
+
+        dao.updateTheme(id + 999, "bedtime")
+
+        assertNull(dao.findById(id)?.theme)
+    }
+
+    @Test
     fun multipleEntriesPerDayAreAllowed() = runBlocking {
         val first = dao.insert(JournalEntry(createdAtEpochMillis = 1L, text = "morgens"))
         val second = dao.insert(JournalEntry(createdAtEpochMillis = 2L, text = "abends"))

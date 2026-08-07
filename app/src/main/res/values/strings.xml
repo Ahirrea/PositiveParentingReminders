@@ -28,11 +28,21 @@
     <string name="journal_editor_saved_message">Gespeichert</string>
     <string name="journal_editor_save_error">Speichern fehlgeschlagen. Dein Text bleibt erhalten – versuch es noch einmal.</string>
     <string name="journal_editor_overview_button">Meine Einträge</string>
+    <string name="journal_editor_theme_label">Worum ging es heute? (optional)</string>
 
     <!-- Journal-Übersicht (A-2): Einträge wiederlesen, neueste zuerst — auf Deutsch, wie alle neuen Texte -->
     <string name="journal_overview_title">Meine Einträge</string>
     <string name="journal_overview_empty">Noch keine Einträge. Dein erster wartet im Editor – ein paar Sätze genügen.</string>
     <string name="journal_overview_load_error">Deine Einträge konnten nicht geladen werden. Versuch es noch einmal.</string>
+
+    <!-- Themen (A-5): Nachtragen in der Übersicht. Bewusst nur das Thema —
+         Text, Stimmung und Impuls bleiben unveränderlich. -->
+    <string name="journal_overview_entry_action_hint">Antippen, um das Thema zu ändern</string>
+    <string name="journal_overview_theme_dialog_title">Thema wählen</string>
+    <string name="journal_overview_theme_none">Kein Thema</string>
+    <string name="journal_overview_theme_save">Speichern</string>
+    <string name="journal_overview_theme_cancel">Abbrechen</string>
+    <string name="journal_overview_theme_error">Das Thema konnte nicht gespeichert werden. Versuch es noch einmal.</string>
 
     <!-- Täglicher Impuls als Notification (A-3): rein lokal, feste Zeit 20:00 bis A-6.
          Bewusst generisch — die Notification ist auf dem Sperrbildschirm sichtbar,
@@ -51,6 +61,23 @@
     <string name="mood_3_description">Stimmung: durchwachsen</string>
     <string name="mood_4_description">Stimmung: gut</string>
     <string name="mood_5_description">Stimmung: sehr gut</string>
+
+    <!-- Themen (A-5): feste Liste, **index-parallel** zu ThemeCatalog.KEYS —
+         die Reihenfolge ist Teil des Vertrags, ThemeLabelsTest wacht darüber.
+         Gespeichert wird der stabile Schlüssel, nicht dieses Label; die
+         Formulierung darf sich also jederzeit ändern. Das letzte Thema ist
+         bewusst positiv besetzt: die Hälfte der Tagesimpulse fragt nach
+         gelungenen Momenten, nicht nach Konflikten. -->
+    <string-array name="theme_labels">
+        <item>Zubettgehen</item>
+        <item>Morgens &amp; Loskommen</item>
+        <item>Essen</item>
+        <item>Geschwister</item>
+        <item>Wut &amp; Trotz</item>
+        <item>Medienzeit</item>
+        <item>Aufräumen &amp; Pflichten</item>
+        <item>Nähe &amp; Verbundenheit</item>
+    </string-array>
 
     <!-- Tagesimpulse (A-1): feste lokale Liste, Rotation nach Datum (PromptProvider).
          Bewusst ohne KI (PRD-Nicht-Ziel); die Notification dazu ist A-3. -->

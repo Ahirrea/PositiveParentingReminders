@@ -13,10 +13,14 @@ import java.time.ZoneId
 
 /**
  * Renders one card per journal entry for the overview (A-2): timestamp, mood
- * emoji (if given), the day's prompt (if stored) and the full entry text —
- * entries are two to three sentences by design, so nothing is truncated.
+ * emoji (if given), theme (A-5, if given), the day's prompt (if stored) and
+ * the full entry text — entries are two to three sentences by design, so
+ * nothing is truncated.
+ *
+ * Tapping a card reports back via [onEntryClick] so the theme can be added
+ * later (A-5). Only the theme is editable; everything else stays read-only.
  */
-class JournalEntryAdapter :
+class JournalEntryAdapter(private val onEntryClick: (JournalEntry) -> Unit) :
     ListAdapter<JournalEntry, JournalEntryAdapter.EntryViewHolder>(DIFF) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryViewHolder {
@@ -26,20 +30,36 @@ class JournalEntryAdapter :
     }
 
     override fun onBindViewHolder(holder: EntryViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), onEntryClick)
     }
 
     class EntryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val timestampTextView: TextView = itemView.findViewById(R.id.entry_timestamp_textview)
         private val moodTextView: TextView = itemView.findViewById(R.id.entry_mood_textview)
+        private val themeTextView: TextView = itemView.findViewById(R.id.entry_theme_textview)
         private val promptTextView: TextView = itemView.findViewById(R.id.entry_prompt_textview)
         private val textTextView: TextView = itemView.findViewById(R.id.entry_text_textview)
 
-        fun bind(entry: JournalEntry) {
+        fun bind(entry: JournalEntry, onEntryClick: (JournalEntry) -> Unit) {
             timestampTextView.text =
                 EntryDateFormatter.format(entry.createdAtEpochMillis, ZoneId.systemDefault())
             textTextView.text = entry.text
+            itemView.setOnClickListener { onEntryClick(entry) }
+
+            // An unknown key (theme dropped from a later catalog) simply shows
+            // nothing — the stored value stays untouched, nothing is discarded.
+            val themeLabel = ThemeCatalog.indexOf(entry.theme)?.let { index ->
+                itemView.context.resources
+                    .getStringArray(R.array.theme_labels)
+                    .getOrNull(index)
+            }
+            if (themeLabel == null) {
+                themeTextView.visibility = View.GONE
+            } else {
+                themeTextView.visibility = View.VISIBLE
+                themeTextView.text = themeLabel
+            }
 
             val moodIndex = entry.mood?.minus(1)?.takeIf { it in moodEmojiIds.indices }
             if (moodIndex != null) {

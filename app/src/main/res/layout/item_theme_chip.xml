@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bauplan für einen Themen-Chip (A-5). Die Chips entstehen zur Laufzeit aus
+     ThemeCatalog.KEYS + theme_labels, damit das Array die einzige Quelle der
+     Themenliste bleibt; gestylt wird trotzdem hier in XML.
+     chipMinHeight: Material-Chips sind von Haus aus nur 32dp hoch, für die
+     Mindest-Touchfläche braucht es 48dp. Farben wie bei den Stimmungsknöpfen —
+     das Theme-Lila ist auf dem dunklen Petrol kaum lesbar. -->
+<com.google.android.material.chip.Chip
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.Material3.Chip.Filter"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:checkable="true"
+    android:textColor="@color/white"
+    app:checkedIconTint="@color/white"
+    app:chipBackgroundColor="@color/mood_button_background"
+    app:chipMinHeight="48dp"
+    app:chipStrokeColor="@color/white"
+    app:chipStrokeWidth="1dp" />

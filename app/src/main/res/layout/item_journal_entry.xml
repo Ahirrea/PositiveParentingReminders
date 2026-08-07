@@ -5,6 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
+    android:clickable="true"
+    android:contentDescription="@string/journal_overview_entry_action_hint"
+    android:focusable="true"
     app:cardBackgroundColor="@color/entry_card_background"
     app:cardCornerRadius="12dp"
     app:cardElevation="0dp">
@@ -35,6 +38,19 @@
             app:layout_constraintTop_toTopOf="@id/entry_timestamp_textview"
             tools:text="🙂" />
 
+        <!-- Thema (A-5); ohne Thema GONE, wie Stimmung und Impuls auch. -->
+        <TextView
+            android:id="@+id/entry_theme_textview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/entry_timestamp_textview"
+            tools:text="Zubettgehen" />
+
         <TextView
             android:id="@+id/entry_prompt_textview"
             android:layout_width="0dp"
@@ -45,7 +61,7 @@
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/entry_timestamp_textview"
+            app:layout_constraintTop_toBottomOf="@id/entry_theme_textview"
             tools:text="Wann warst du heute stolz auf dich?" />
 
         <TextView

@@ -209,6 +209,32 @@
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
+        <TextView
+            android:id="@+id/theme_label_textview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/journal_editor_theme_label"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mood_toggle_group" />
+
+        <!-- Themen-Chips (A-5): zur Laufzeit aus ThemeCatalog.KEYS + theme_labels
+             befüllt. singleSelection + selectionRequired="false" heißt: ein Tipp
+             wählt, ein zweiter hebt wieder auf. -->
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/theme_chip_group"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/theme_label_textview"
+            app:selectionRequired="false"
+            app:singleSelection="true" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/save_entry_button"
             android:layout_width="0dp"
@@ -222,7 +248,7 @@
             app:layout_constraintBottom_toTopOf="@id/journal_overview_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mood_toggle_group"
+            app:layout_constraintTop_toBottomOf="@id/theme_chip_group"
             app:layout_constraintVertical_bias="1.0" />
 
         <com.google.android.material.button.MaterialButton

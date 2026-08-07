@@ -40,6 +40,13 @@ android {
         // buildConfig bleibt an: das secrets-gradle-plugin reicht Keys über BuildConfig durch.
         buildConfig = true
     }
+    sourceSets {
+        // Der MigrationTestHelper liest die eingecheckte Schema-Historie zur
+        // Laufzeit aus den Assets des Instrumented-Tests (A-5, erste Migration).
+        getByName("androidTest") {
+            assets.srcDir("$projectDir/schemas")
+        }
+    }
 }
 
 ksp {
@@ -63,4 +70,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    // Nur für den Migrationstest (A-5): Schema 1 → 2 darf keinen Eintrag verlieren.
+    androidTestImplementation(libs.androidx.room.testing)
 }
