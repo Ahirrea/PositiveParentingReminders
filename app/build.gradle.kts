@@ -19,7 +19,25 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        // Fester Debug-Keystore, bewusst eingecheckt (siehe CLAUDE.md „Secrets").
+        // Ohne ihn signiert jede Maschine und jede Web-Sitzung mit einem eigenen,
+        // frisch erzeugten Keystore — und Android verweigert dann die Installation
+        // über die vorhandene App. Deinstallieren heißt hier: das Journal ist weg.
+        // Ein fester Schlüssel hält Testinstallationen updatefähig und macht damit
+        // erst möglich, Room-Migrationen an echtem Bestand zu prüfen.
+        getByName("debug") {
+            storeFile = file("debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
+
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(

@@ -155,6 +155,17 @@ sessions don't have; there, `assembleDebugAndroidTest` at least verifies they co
 API keys (e.g. Gemini) belong in `local.properties` (git-ignored), surfaced via `BuildConfig` through the
 secrets-gradle-plugin. **Never commit keys** or a `local.properties`.
 
+**The one deliberate exception is `app/debug.keystore`** (committed 2026-08-07, wired as
+`signingConfigs.debug` in `app/build.gradle.kts`). It is *not* a secret: standard alias
+`androiddebugkey` with the publicly documented default password `android`, self-signed,
+usable only for debug builds — it can't sign a release. It is checked in because the
+alternative costs data: without a fixed key, every machine and every Claude Code web session
+signs with its own freshly generated keystore, Android refuses to install over the existing
+app, and uninstalling wipes the journal. That happened once with the A-5 build. A stable key
+keeps test installs upgradeable — and is what makes it possible to verify Room migrations
+against real entries at all. **Do not delete it as a policy violation, and never reuse it for
+a release build.**
+
 ## Git
 Solo project; work lands on `main`. `local.properties`, `/build`, `.gradle`, and most of `.idea/` are
 git-ignored — don't commit build output or machine-local config.
